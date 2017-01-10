@@ -1,11 +1,12 @@
 ﻿using GeneralPurposeLib;
-using IBLL.DTO;
+using Seminabit.Sanita.OrderEntry.IBLL.DTO;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
+using Seminabit.Sanita.OrderEntry;
 
-namespace LISPlugin
+namespace Seminabit.Sanita.OrderEntry.LISPlugin
 {
     public class LIS : ILISPlugin.ILIS
     {

@@ -1,6 +1,6 @@
 ﻿using AutoMapper;
 
-namespace BusinessLogicLayer.Mappers
+namespace Seminabit.Sanita.OrderEntry.BusinessLogicLayer.Mappers
 {
     public class RefertoMapper
     {

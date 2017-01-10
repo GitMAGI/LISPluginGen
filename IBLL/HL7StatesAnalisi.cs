@@ -1,4 +1,4 @@
-﻿namespace IBLL
+﻿namespace Seminabit.Sanita.OrderEntry.IBLL
 {
     public sealed class HL7StatesAnalisi
     {

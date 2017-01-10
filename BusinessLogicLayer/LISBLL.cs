@@ -1,4 +1,4 @@
-﻿namespace BusinessLogicLayer
+﻿namespace Seminabit.Sanita.OrderEntry.BusinessLogicLayer
 {
     public partial class LISBLL : IBLL.ILISBLL
     {

@@ -6,7 +6,7 @@ using System.Data.SqlClient;
 using System.Diagnostics;
 using System.Linq;
 
-namespace DataAccessLayer
+namespace Seminabit.Sanita.OrderEntry.DataAccessLayer
 {    
     public class DBSQL
     {

@@ -3,9 +3,9 @@ using System;
 using System.Collections.Generic;
 using System.Data;
 using System.Diagnostics;
-using DataAccessLayer.Mappers;
+using Seminabit.Sanita.OrderEntry.DataAccessLayer.Mappers;
 
-namespace DataAccessLayer
+namespace Seminabit.Sanita.OrderEntry.DataAccessLayer
 {
     public partial class LISDAL
     {        
@@ -190,20 +190,21 @@ namespace DataAccessLayer
                 }
                 else
                 {
+                    long id_ = long.Parse(id);
                     // UPDATE
                     Dictionary<string, DBSQL.QueryCondition> conditions = new Dictionary<string, DBSQL.QueryCondition>()
                     {
-                        { "id",
+                        { "idCentrale",
                             new DBSQL.QueryCondition()
                             {
                                 Key = "id",
-                                Value = id,
+                                Value = id_,
                                 Op = DBSQL.Op.Equal,
                                 Conj = DBSQL.Conj.None,
                             }
                         },
                     };
-                    result = DBSQL.UpdateOperation(connectionString, table, data, conditions, new List<string>() { "esamidid" });
+                    result = DBSQL.UpdateOperation(connectionString, table, data, conditions, new List<string>() { "id" });
                     log.Info(string.Format("Updated {0} records!", result));
                 }
             }

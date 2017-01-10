@@ -7,7 +7,7 @@
     <ProjectGuid>{C9A27A86-5EB3-4182-8BFB-A0A32543BE03}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>DataAccessLayer</RootNamespace>
+    <RootNamespace>Seminabit.Sanita.OrderEntry.DataAccessLayer</RootNamespace>
     <AssemblyName>DataAccessLayer</AssemblyName>
     <TargetFrameworkVersion>v4.5.2</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
@@ -89,12 +89,12 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />
-    <None Include="Service References\MirthWS\DataAccessLayer.MirthWS.acceptMessageResponse.datasource">
-      <DependentUpon>Reference.svcmap</DependentUpon>
-    </None>
     <None Include="Service References\MirthWS\DefaultAcceptMessageService.wsdl" />
     <None Include="Service References\MirthWS\Mirth.xsd">
       <SubType>Designer</SubType>
+    </None>
+    <None Include="Service References\MirthWS\Seminabit.Sanita.OrderEntry.DataAccessLayer.MirthWS.acceptMessageResponse.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
     </None>
   </ItemGroup>
   <ItemGroup>

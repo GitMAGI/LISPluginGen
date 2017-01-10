@@ -3,9 +3,9 @@ using System;
 using System.Collections.Generic;
 using System.Data;
 using System.Diagnostics;
-using DataAccessLayer.Mappers;
+using Seminabit.Sanita.OrderEntry.DataAccessLayer.Mappers;
 
-namespace DataAccessLayer
+namespace Seminabit.Sanita.OrderEntry.DataAccessLayer
 {
     public partial class LISDAL
     {        
@@ -363,7 +363,7 @@ namespace DataAccessLayer
 
             return result;
         }
-        public int DeleteAnalisiByRichiesta(string esamidid)
+        public int DeleteAnalisiByIdRichiestaExt(string richid)
         {
             int result = 0;
 
@@ -378,7 +378,7 @@ namespace DataAccessLayer
             {
                 string connectionString = this.GRConnectionString;
 
-                long analesam_ = long.Parse(esamidid);
+                long analesam_ = long.Parse(richid);
                 // UPDATE
                 Dictionary<string, DBSQL.QueryCondition> conditions = new Dictionary<string, DBSQL.QueryCondition>()
                     {
@@ -387,6 +387,51 @@ namespace DataAccessLayer
                             {
                                 Key = "analesam",
                                 Value = analesam_,
+                                Op = DBSQL.Op.Equal,
+                                Conj = DBSQL.Conj.None,
+                            }
+                        },
+                    };
+                result = DBSQL.DeleteOperation(connectionString, table, conditions);
+                log.Info(string.Format("Deleted {0} records!", result));
+            }
+            catch (Exception ex)
+            {
+                string msg = "An Error occured! Exception detected!";
+                log.Info(msg);
+                log.Error(msg + "\n" + ex.Message);
+            }
+
+            tw.Stop();
+
+            log.Info(string.Format("Completed! Elapsed time {0}", LibString.TimeSpanToTimeHmsms(tw.Elapsed)));
+
+            return result;
+        }
+        public int DeleteAnalisiByIdRichiesta(string id)
+        {
+            int result = 0;
+
+            Stopwatch tw = new Stopwatch();
+            tw.Start();
+
+            log.Info(string.Format("Starting ..."));
+
+            string table = this.AnalisiTabName;
+
+            try
+            {
+                string connectionString = this.GRConnectionString;
+
+                long id_ = long.Parse(id);
+                // UPDATE
+                Dictionary<string, DBSQL.QueryCondition> conditions = new Dictionary<string, DBSQL.QueryCondition>()
+                    {
+                        { "id",
+                            new DBSQL.QueryCondition()
+                            {
+                                Key = "analesam",
+                                Value = id_,
                                 Op = DBSQL.Op.Equal,
                                 Conj = DBSQL.Conj.None,
                             }

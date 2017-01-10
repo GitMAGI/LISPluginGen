@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace IDAL.VO
+namespace Seminabit.Sanita.OrderEntry.IDAL.VO
 {
     public class RisultatoVO
     {

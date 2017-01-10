@@ -1,10 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
-using IBLL.DTO;
+using Seminabit.Sanita.OrderEntry.IBLL.DTO;
 using System.Diagnostics;
 using GeneralPurposeLib;
 
-namespace BusinessLogicLayer
+namespace Seminabit.Sanita.OrderEntry.BusinessLogicLayer
 {
     public partial class LISBLL
     {
@@ -547,7 +547,7 @@ namespace BusinessLogicLayer
                 {
                     richRB = this.DeleteRichiestaLISById(res);
                     log.Info(string.Format("Rolled Back {0} RIC record. ESAMIDID was {1}!", richRB, stored));
-                    analsRB = this.DeleteAnalisiByRichiesta(res);
+                    analsRB = this.DeleteAnalisiByIdRichiestaExt(res);
                     log.Info(string.Format("Rolled Back {0} ANAL records. ANALESAM was {1}!", analsRB, stored));
                 }
                 log.Info(string.Format("Rolled Back {0} records of {1} requested!", richRB + analsRB, anals.Count + 1));

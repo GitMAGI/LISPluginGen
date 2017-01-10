@@ -1,6 +1,6 @@
 ﻿using System.Collections.Generic;
 
-namespace IBLL
+namespace Seminabit.Sanita.OrderEntry.IBLL
 {
     public interface ILISBLL
     {
@@ -19,7 +19,7 @@ namespace IBLL
         DTO.AnalisiDTO AddAnalisi(DTO.AnalisiDTO data);
         List<DTO.AnalisiDTO> AddAnalisis(List<DTO.AnalisiDTO> data);
         int DeleteAnalisiById(string analidid);
-        int DeleteAnalisiByRichiesta(string richidid);
+        int DeleteAnalisiByIdRichiestaExt(string richidid);
 
         List<DTO.LabelDTO> GetLabelsByRichiesta(string richidid);
         DTO.LabelDTO GetLabelById(string labeidid);

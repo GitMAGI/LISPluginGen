@@ -1,6 +1,6 @@
 ﻿using System.Configuration;
 
-namespace DataAccessLayer
+namespace Seminabit.Sanita.OrderEntry.DataAccessLayer
 {
     public partial class LISDAL : IDAL.ILISDAL
     {

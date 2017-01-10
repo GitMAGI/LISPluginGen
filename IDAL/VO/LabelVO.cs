@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace IDAL.VO
+namespace Seminabit.Sanita.OrderEntry.IDAL.VO
 {
     public class LabelVO
     {

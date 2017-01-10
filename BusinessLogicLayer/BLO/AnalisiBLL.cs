@@ -1,10 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
-using BusinessLogicLayer.Mappers;
+using Seminabit.Sanita.OrderEntry.BusinessLogicLayer.Mappers;
 using System.Diagnostics;
 using GeneralPurposeLib;
 
-namespace BusinessLogicLayer
+namespace Seminabit.Sanita.OrderEntry.BusinessLogicLayer
 {
     public partial class LISBLL
     {
@@ -207,7 +207,7 @@ namespace BusinessLogicLayer
 
             return result;
         }
-        public int DeleteAnalisiByRichiesta(string richidid)
+        public int DeleteAnalisiByIdRichiestaExt(string richidid)
         {
             Stopwatch tw = new Stopwatch();
             tw.Start();
@@ -218,7 +218,7 @@ namespace BusinessLogicLayer
 
             try
             {
-                result = dal.DeleteAnalisiById(richidid);
+                result = dal.DeleteAnalisiByIdRichiestaExt(richidid);
                 log.Info(string.Format("{0} items Deleted!", result));
             }
             catch (Exception ex)

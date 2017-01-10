@@ -3,7 +3,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 
-namespace BusinessLogicLayer.Mappers
+namespace Seminabit.Sanita.OrderEntry.BusinessLogicLayer.Mappers
 {
     public class LabelMapper
     {

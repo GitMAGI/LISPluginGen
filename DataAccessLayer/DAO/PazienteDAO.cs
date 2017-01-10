@@ -3,9 +3,9 @@ using System;
 using System.Collections.Generic;
 using System.Data;
 using System.Diagnostics;
-using DataAccessLayer.Mappers;
+using Seminabit.Sanita.OrderEntry.DataAccessLayer.Mappers;
 
-namespace DataAccessLayer
+namespace Seminabit.Sanita.OrderEntry.DataAccessLayer
 {
     public partial class LISDAL
     {

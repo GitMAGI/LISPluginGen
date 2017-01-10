@@ -1,4 +1,4 @@
-﻿namespace IBLL.DTO
+﻿namespace Seminabit.Sanita.OrderEntry.IBLL.DTO
 {
     public class PazienteDTO
     {

@@ -1,7 +1,7 @@
-﻿using IBLL.DTO;
+﻿using Seminabit.Sanita.OrderEntry.IBLL.DTO;
 using System.Collections.Generic;
 
-namespace ILISPlugin
+namespace Seminabit.Sanita.OrderEntry.ILISPlugin
 {
     public interface ILIS
     {

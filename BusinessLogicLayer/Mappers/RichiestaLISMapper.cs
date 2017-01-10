@@ -1,7 +1,7 @@
 ﻿using AutoMapper;
 using System.Collections.Generic;
 
-namespace BusinessLogicLayer.Mappers
+namespace Seminabit.Sanita.OrderEntry.BusinessLogicLayer.Mappers
 {
     public class RichiestaLISMapper
     {

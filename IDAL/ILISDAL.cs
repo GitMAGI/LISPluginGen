@@ -1,6 +1,6 @@
 ﻿using System.Collections.Generic;
 
-namespace IDAL
+namespace Seminabit.Sanita.OrderEntry.IDAL
 {
     public interface ILISDAL
     {
@@ -22,7 +22,7 @@ namespace IDAL
         List<VO.AnalisiVO> NewAnalisi(List<VO.AnalisiVO> data);
         VO.AnalisiVO NewAnalisi(VO.AnalisiVO data);
         int DeleteAnalisiById(string analidid);
-        int DeleteAnalisiByRichiesta(string esamidid);
+        int DeleteAnalisiByIdRichiestaExt(string esamidid);
 
         VO.LabelVO GetLabelById(string labeidid);
         List<VO.LabelVO> GetLabelsByRichiesta(string richidid);

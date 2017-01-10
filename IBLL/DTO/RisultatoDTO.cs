@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace IBLL.DTO
+namespace Seminabit.Sanita.OrderEntry.IBLL.DTO
 {
     public class RisultatoDTO
     {

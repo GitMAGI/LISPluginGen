@@ -7,7 +7,7 @@
     <ProjectGuid>{9C4FE02F-3162-4B01-AE0D-4974280ADDFE}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>ILISPluginGen</RootNamespace>
+    <RootNamespace>Seminabit.Sanita.OrderEntry.ILISPluginGen</RootNamespace>
     <AssemblyName>ILISPluginGen</AssemblyName>
     <TargetFrameworkVersion>v4.5.2</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>

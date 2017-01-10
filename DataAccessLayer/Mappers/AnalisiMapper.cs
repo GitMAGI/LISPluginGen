@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Data;
 
-namespace DataAccessLayer.Mappers
+namespace Seminabit.Sanita.OrderEntry.DataAccessLayer.Mappers
 {
     public class AnalisiMapper
     {
@@ -15,6 +15,7 @@ namespace DataAccessLayer.Mappers
 
             anal.analidid = row["analidid"] != DBNull.Value ? (int)row["analidid"] : (int?)null;
             anal.analesam = row["analesam"] != DBNull.Value ? (int)row["analesam"] : (int?)null;
+            //anal.analesam_ = row["analesam_"] != DBNull.Value ? (string)row["analesam_"] : null;
             anal.analcodi = row["analcodi"] != DBNull.Value ? (string)row["analcodi"] : null;
             anal.analnome = row["analnome"] != DBNull.Value ? (string)row["analnome"] : null;
             anal.analinvi = row["analinvi"] != DBNull.Value ? (short)row["analinvi"] : (short?)null;

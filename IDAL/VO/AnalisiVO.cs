@@ -1,4 +1,4 @@
-﻿namespace IDAL.VO
+﻿namespace Seminabit.Sanita.OrderEntry.IDAL.VO
 {
     public class AnalisiVO
     {
@@ -11,5 +11,6 @@
         public string analextb { get; set; }
         public string hl7_stato { get; set; }
         public string hl7_msg { get; set; }
+        //public string analesam_ { get; set; }
     }
 }

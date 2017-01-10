@@ -4,7 +4,7 @@ using System.Collections.Generic;
 using System.Diagnostics;
 using System.Xml;
 
-namespace DataAccessLayer
+namespace Seminabit.Sanita.OrderEntry.DataAccessLayer
 {
     public partial class LISDAL
     {
@@ -21,7 +21,7 @@ namespace DataAccessLayer
             {
                 log.Info("Building XML Request for Mirth ... ");
                 XmlDocument doc = new XmlDocument();
-                doc.LoadXml("<Mymsg>" + "<esamidid>" + richidid + "</esamidid>" + "</Mymsg>");
+                doc.LoadXml("<Mymsg>" + "<richidid>" + richidid + "</richidid>" + "</Mymsg>");
                 string xmlreq = LibString.XML2String(doc);
                 log.Info("XML Request built and stringyfied! XML: " + xmlreq);
 

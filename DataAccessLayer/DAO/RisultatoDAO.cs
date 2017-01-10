@@ -4,7 +4,7 @@ using System.Collections.Generic;
 using System.Data;
 using System.Diagnostics;
 
-namespace DataAccessLayer
+namespace Seminabit.Sanita.OrderEntry.DataAccessLayer
 {
     public partial class LISDAL
     {

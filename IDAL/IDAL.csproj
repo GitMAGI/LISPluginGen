@@ -7,7 +7,7 @@
     <ProjectGuid>{1AE7A8D0-8826-4D4D-9E71-8CD3D6175319}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>IDAL</RootNamespace>
+    <RootNamespace>Seminabit.Sanita.OrderEntry.IDAL</RootNamespace>
     <AssemblyName>IDAL</AssemblyName>
     <TargetFrameworkVersion>v4.5.2</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
