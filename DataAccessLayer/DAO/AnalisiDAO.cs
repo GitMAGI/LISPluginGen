@@ -3,9 +3,10 @@ using System;
 using System.Collections.Generic;
 using System.Data;
 using System.Diagnostics;
-using Seminabit.Sanita.OrderEntry.DataAccessLayer.Mappers;
+using Seminabit.Sanita.OrderEntry.LIS.DataAccessLayer.Mappers;
+using DBSQLSuite;
 
-namespace Seminabit.Sanita.OrderEntry.DataAccessLayer
+namespace Seminabit.Sanita.OrderEntry.LIS.DataAccessLayer
 {
     public partial class LISDAL
     {        
@@ -117,7 +118,8 @@ namespace Seminabit.Sanita.OrderEntry.DataAccessLayer
 
             return anals;
         }
-        public List<IDAL.VO.AnalisiVO> GetAnalisisByRichiesta(string richidid)
+        /*
+        public List<IDAL.VO.AnalisiVO> GetAnalisisByIdRichiesta(string richidid)
         {
             Stopwatch tw = new Stopwatch();
             tw.Start();
@@ -140,6 +142,55 @@ namespace Seminabit.Sanita.OrderEntry.DataAccessLayer
                             Key = "analesam",
                             Op = DBSQL.Op.Equal,
                             Value = esamidid_,
+                            Conj = DBSQL.Conj.None
+                        }
+                    }
+                };
+                DataTable data = DBSQL.SelectOperation(connectionString, table, conditions);
+                log.Info(string.Format("DBSQL Query Executed! Retrieved {0} record!", LibString.ItemsNumber(data)));
+                if (data != null)
+                {
+                    anals = AnalisiMapper.AnalMapper(data);
+                    log.Info(string.Format("{0} Records mapped to {1}", LibString.ItemsNumber(anals), LibString.TypeName(anals)));
+                }
+            }
+            catch (Exception ex)
+            {
+                log.Info(string.Format("DBSQL Query Executed! Retrieved 0 record!"));
+                string msg = "An Error occured! Exception detected!";
+                log.Info(msg);
+                log.Error(msg + "\n" + ex.Message);
+            }
+
+            tw.Stop();
+
+            log.Info(string.Format("Completed! Elapsed time {0}", LibString.TimeSpanToTimeHmsms(tw.Elapsed)));
+
+            return anals;
+        }
+        */
+        public List<IDAL.VO.AnalisiVO> GetAnalisisByIdRichiestaExt(string richididExt)
+        {
+            Stopwatch tw = new Stopwatch();
+            tw.Start();
+
+            log.Info(string.Format("Starting ..."));
+
+            List<IDAL.VO.AnalisiVO> anals = null;
+            try
+            {
+                string connectionString = this.GRConnectionString;
+                                
+                string table = this.AnalisiTabName;
+
+                Dictionary<string, DBSQL.QueryCondition> conditions = new Dictionary<string, DBSQL.QueryCondition>()
+                {
+                    {
+                        "id",
+                        new DBSQL.QueryCondition() {
+                            Key = "analrich",
+                            Op = DBSQL.Op.Equal,
+                            Value = richididExt,
                             Conj = DBSQL.Conj.None
                         }
                     }
@@ -363,7 +414,8 @@ namespace Seminabit.Sanita.OrderEntry.DataAccessLayer
 
             return result;
         }
-        public int DeleteAnalisiByIdRichiestaExt(string richid)
+        /*
+        public int DeleteAnalisiByIdRichiesta(string id)
         {
             int result = 0;
 
@@ -378,15 +430,15 @@ namespace Seminabit.Sanita.OrderEntry.DataAccessLayer
             {
                 string connectionString = this.GRConnectionString;
 
-                long analesam_ = long.Parse(richid);
+                long id_ = long.Parse(id);
                 // UPDATE
                 Dictionary<string, DBSQL.QueryCondition> conditions = new Dictionary<string, DBSQL.QueryCondition>()
                     {
-                        { "id",
+                        { "richid",
                             new DBSQL.QueryCondition()
                             {
                                 Key = "analesam",
-                                Value = analesam_,
+                                Value = id_,
                                 Op = DBSQL.Op.Equal,
                                 Conj = DBSQL.Conj.None,
                             }
@@ -408,7 +460,8 @@ namespace Seminabit.Sanita.OrderEntry.DataAccessLayer
 
             return result;
         }
-        public int DeleteAnalisiByIdRichiesta(string id)
+        */    
+        public int DeleteAnalisiByIdRichiestaExt(string richid)
         {
             int result = 0;
 
@@ -423,15 +476,14 @@ namespace Seminabit.Sanita.OrderEntry.DataAccessLayer
             {
                 string connectionString = this.GRConnectionString;
 
-                long id_ = long.Parse(id);
                 // UPDATE
                 Dictionary<string, DBSQL.QueryCondition> conditions = new Dictionary<string, DBSQL.QueryCondition>()
                     {
                         { "id",
                             new DBSQL.QueryCondition()
                             {
-                                Key = "analesam",
-                                Value = id_,
+                                Key = "analrich",
+                                Value = richid,
                                 Op = DBSQL.Op.Equal,
                                 Conj = DBSQL.Conj.None,
                             }

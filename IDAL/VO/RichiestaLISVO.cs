@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace Seminabit.Sanita.OrderEntry.IDAL.VO
+namespace Seminabit.Sanita.OrderEntry.LIS.IDAL.VO
 {
     public class RichiestaLISVO
     {
@@ -62,5 +62,6 @@ namespace Seminabit.Sanita.OrderEntry.IDAL.VO
         public string repanome { get; set; }
         public DateTime? accedatetime { get; set; }
         public string tiporicovero { get; set; }
+        public long? episodioid { get; set; }
     }
 }

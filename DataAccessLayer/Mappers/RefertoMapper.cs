@@ -1,12 +1,13 @@
 ﻿using System;
 using System.Data;
 
-namespace Seminabit.Sanita.OrderEntry.DataAccessLayer.Mappers
+namespace Seminabit.Sanita.OrderEntry.LIS.DataAccessLayer.Mappers
 {
     public class RefertoMapper
     {
         private static readonly log4net.ILog log =
-           log4net.LogManager.GetLogger(System.Reflection.MethodBase.GetCurrentMethod().DeclaringType);        
+            //log4net.LogManager.GetLogger(System.Reflection.MethodBase.GetCurrentMethod().DeclaringType);
+            log4net.LogManager.GetLogger("LIS");
 
         public static IDAL.VO.RefertoVO RefeMapper(DataRow row)
         {
@@ -18,6 +19,7 @@ namespace Seminabit.Sanita.OrderEntry.DataAccessLayer.Mappers
             refe.refemecf = row["refemecf"] != DBNull.Value ? (string)row["refemecf"] : null;
             refe.refedata = row["refedata"] != DBNull.Value ? (DateTime)row["refedata"] : (DateTime?)null;
             refe.refeidid = row["refeesam"] != DBNull.Value ? (int)row["refeesam"] : (int?)null;
+            refe.referich = row["referich"] != DBNull.Value ? (string)row["referich"] : null;
 
             return refe;
         }

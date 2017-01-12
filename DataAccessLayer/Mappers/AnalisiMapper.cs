@@ -2,20 +2,21 @@
 using System.Collections.Generic;
 using System.Data;
 
-namespace Seminabit.Sanita.OrderEntry.DataAccessLayer.Mappers
+namespace Seminabit.Sanita.OrderEntry.LIS.DataAccessLayer.Mappers
 {
     public class AnalisiMapper
     {
         private static readonly log4net.ILog log =
-           log4net.LogManager.GetLogger(System.Reflection.MethodBase.GetCurrentMethod().DeclaringType);
-       
+            //log4net.LogManager.GetLogger(System.Reflection.MethodBase.GetCurrentMethod().DeclaringType);
+            log4net.LogManager.GetLogger("LIS");
+
         public static IDAL.VO.AnalisiVO AnalMapper(DataRow row)
         {
             IDAL.VO.AnalisiVO anal = new IDAL.VO.AnalisiVO();
 
             anal.analidid = row["analidid"] != DBNull.Value ? (int)row["analidid"] : (int?)null;
             anal.analesam = row["analesam"] != DBNull.Value ? (int)row["analesam"] : (int?)null;
-            //anal.analesam_ = row["analesam_"] != DBNull.Value ? (string)row["analesam_"] : null;
+            anal.analrich = row["analrich"] != DBNull.Value ? (string)row["analrich"] : null;
             anal.analcodi = row["analcodi"] != DBNull.Value ? (string)row["analcodi"] : null;
             anal.analnome = row["analnome"] != DBNull.Value ? (string)row["analnome"] : null;
             anal.analinvi = row["analinvi"] != DBNull.Value ? (short)row["analinvi"] : (short?)null;

@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace Seminabit.Sanita.OrderEntry.IDAL.VO
+namespace Seminabit.Sanita.OrderEntry.LIS.IDAL.VO
 {
     public class RefertoVO
     {
@@ -10,5 +10,6 @@ namespace Seminabit.Sanita.OrderEntry.IDAL.VO
         public string refemeno { get; set; }
         public string refemecf { get; set; }
         public int? refeesam { get; set; }
+        public string referich { get; set; }
     }
 }

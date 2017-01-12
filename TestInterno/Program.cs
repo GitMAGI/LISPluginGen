@@ -1,8 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
 
-using Seminabit.Sanita.OrderEntry.IBLL.DTO;
-using Seminabit.Sanita.OrderEntry.LISPlugin;
+using Seminabit.Sanita.OrderEntry.LIS.IBLL.DTO;
+using Seminabit.Sanita.OrderEntry.LIS.Plugin;
 
 namespace TestInterno
 {
@@ -11,18 +11,16 @@ namespace TestInterno
         static void Main(string[] args)
         {
             Console.WriteLine("Starting .... ");
+            
+            LIS lis = new LIS();           
 
-            //string richid = "01524etre3454";
-
-            LIS lis = new LIS();
-
-            //List<IBLL.DTO.AnalisiDTO> anals = lis.Check4Analysis(richid);
-
-
+            
             RichiestaLISDTO rich = new RichiestaLISDTO();
 
+            rich.episodioid = 100202;
+
             rich.paziid = "8475512";
-            rich.paziidunico = 655852;
+            rich.paziidunico = 0;
 
             rich.pazicofi = "TSSTTS83C15R345J";
             rich.pazicogn = "TestCognome";
@@ -30,7 +28,7 @@ namespace TestInterno
             rich.pazidata = Convert.ToDateTime("1983-03-15");
             rich.pazisess = "M";
            
-            rich.richidid = "zs54z5s45z4s5";
+            rich.richidid = "2fghghrr0bv32ytry3";
 
             rich.accedatetime = Convert.ToDateTime("2017-01-09 11:25:00.000");
             rich.evendata = DateTime.Now;
@@ -88,7 +86,7 @@ namespace TestInterno
             {
                 new AnalisiDTO()
                 {
-                    //analesam_ = rich.richidid,
+                    analrich = rich.richidid,
                     analcodi = "EMO",
                     analnome = "Emocromo",
                     analinvi = 0,
@@ -96,7 +94,7 @@ namespace TestInterno
                 },
                 new AnalisiDTO()
                 {
-                    //analesam_ = rich.richidid,
+                    analrich = rich.richidid,
                     analcodi = "BIL",
                     analnome = "Bilirubina a Pompa",
                     analinvi = 0,
@@ -106,8 +104,11 @@ namespace TestInterno
 
             string err = null;
 
-            MirthResponseDTO resp = lis.NewRequest(rich, anals, ref err);
-                        
+            //MirthResponseDTO respAdd = lis.NewRequest(rich, anals, ref err);
+
+            bool chk = lis.CheckIfCancelingIsAllowed(rich.richidid, ref err);
+
+            //MirthResponseDTO respCanceling = lis.CancelRequest(rich.richidid, ref err);           
 
             Console.WriteLine("Press a Key to Complete!");
             Console.ReadKey();

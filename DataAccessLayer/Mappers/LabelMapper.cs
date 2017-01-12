@@ -3,13 +3,14 @@ using System.Collections.Generic;
 using System.Data;
 using System.Linq;
 
-namespace Seminabit.Sanita.OrderEntry.DataAccessLayer.Mappers
+namespace Seminabit.Sanita.OrderEntry.LIS.DataAccessLayer.Mappers
 {
     public class LabelMapper
     {
         private static readonly log4net.ILog log =
-           log4net.LogManager.GetLogger(System.Reflection.MethodBase.GetCurrentMethod().DeclaringType);
-       
+            //log4net.LogManager.GetLogger(System.Reflection.MethodBase.GetCurrentMethod().DeclaringType);
+            log4net.LogManager.GetLogger("LIS");
+
         public static IDAL.VO.LabelVO LabeMapper(DataRow row)
         {
             IDAL.VO.LabelVO labe = new IDAL.VO.LabelVO();
@@ -30,6 +31,7 @@ namespace Seminabit.Sanita.OrderEntry.DataAccessLayer.Mappers
             labe.labesectid = row["LABESECTID"] != DBNull.Value ? (string)row["LABESECTID"] : null;
             labe.labesectnome = row["LABESECTNOME"] != DBNull.Value ? (string)row["LABESECTNOME"] : null;
             labe.labedaorprel = row["LABEDAORPREL"] != DBNull.Value ? (DateTime)row["LABEDAORPREL"] : (DateTime?)null;
+            labe.laberich = row["LABERICH"] != DBNull.Value ? (string)row["LABERICH"] : null;
 
             return labe;
         }

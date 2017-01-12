@@ -2,7 +2,7 @@
 <definitions xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/" xmlns:tns="http://ws.connectors.connect.mirth.com/" name="DefaultAcceptMessageService" targetNamespace="http://ws.connectors.connect.mirth.com/" xmlns="http://schemas.xmlsoap.org/wsdl/">
   <types>
     <xsd:schema>
-      <xsd:import schemaLocation="http://192.168.0.180:8081/services/Mirth?xsd=1" namespace="http://ws.connectors.connect.mirth.com/" />
+      <xsd:import schemaLocation="http://192.168.0.180:8082/services/Mirth?xsd=1" namespace="http://ws.connectors.connect.mirth.com/" />
     </xsd:schema>
   </types>
   <message name="acceptMessage">
@@ -31,7 +31,7 @@
   </binding>
   <service name="DefaultAcceptMessageService">
     <port name="DefaultAcceptMessagePort" binding="tns:DefaultAcceptMessagePortBinding">
-      <soap:address location="http://192.168.0.180:8081/services/Mirth" />
+      <soap:address location="http://192.168.0.180:8082/services/Mirth" />
     </port>
   </service>
 </definitions>

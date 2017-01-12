@@ -2,13 +2,14 @@
 using System.Collections.Generic;
 using System.Data;
 
-namespace Seminabit.Sanita.OrderEntry.DataAccessLayer.Mappers
+namespace Seminabit.Sanita.OrderEntry.LIS.DataAccessLayer.Mappers
 {
     public class RisultatoMapper
     {
         private static readonly log4net.ILog log =
-           log4net.LogManager.GetLogger(System.Reflection.MethodBase.GetCurrentMethod().DeclaringType);
-       
+            //log4net.LogManager.GetLogger(System.Reflection.MethodBase.GetCurrentMethod().DeclaringType);
+            log4net.LogManager.GetLogger("LIS");
+
         public static IDAL.VO.RisultatoGrezzoVO AnreTrashMapper(DataRow row)
         {
             IDAL.VO.RisultatoGrezzoVO anreT = new IDAL.VO.RisultatoGrezzoVO();
@@ -28,7 +29,7 @@ namespace Seminabit.Sanita.OrderEntry.DataAccessLayer.Mappers
             anre.anreprog = row["anreprog"] != DBNull.Value ? (int)row["anreprog"] : (int?)null;
             anre.anretipo = row["anretipo"] != DBNull.Value ? (string)row["anretipo"] : null;
             anre.anreidsn = row["anreidsn"] != DBNull.Value ? (string)row["anreidsn"] : null;
-            anre.anreidsn = row["anredsmu"] != DBNull.Value ? (string)row["anredsmu"] : null;
+            anre.anredsmu = row["anredsmu"] != DBNull.Value ? (string)row["anredsmu"] : null;
             anre.anreidmu = row["anreidmu"] != DBNull.Value ? (string)row["anreidmu"] : null;
             anre.anrerisu = row["anrerisu"] != DBNull.Value ? (string)row["anrerisu"] : null;
             anre.anrerisucomm = row["anrerisucomm"] != DBNull.Value ? (string)row["anrerisucomm"] : null;

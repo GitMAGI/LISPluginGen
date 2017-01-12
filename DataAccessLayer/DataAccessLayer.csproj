@@ -7,10 +7,11 @@
     <ProjectGuid>{C9A27A86-5EB3-4182-8BFB-A0A32543BE03}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>Seminabit.Sanita.OrderEntry.DataAccessLayer</RootNamespace>
+    <RootNamespace>Seminabit.Sanita.OrderEntry.LIS.DataAccessLayer</RootNamespace>
     <AssemblyName>DataAccessLayer</AssemblyName>
-    <TargetFrameworkVersion>v4.5.2</TargetFrameworkVersion>
+    <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
+    <TargetFrameworkProfile />
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
@@ -34,8 +35,8 @@
       <HintPath>..\packages\AutoMapper.5.1.1\lib\net45\AutoMapper.dll</HintPath>
       <Private>True</Private>
     </Reference>
-    <Reference Include="log4net, Version=1.2.15.0, Culture=neutral, PublicKeyToken=669e0ddf0bb1aa2a, processorArchitecture=MSIL">
-      <HintPath>..\packages\log4net.2.0.5\lib\net45-full\log4net.dll</HintPath>
+    <Reference Include="log4net, Version=2.0.7.0, Culture=neutral, PublicKeyToken=669e0ddf0bb1aa2a, processorArchitecture=MSIL">
+      <HintPath>..\packages\log4net.2.0.7\lib\net45-full\log4net.dll</HintPath>
       <Private>True</Private>
     </Reference>
     <Reference Include="System" />
@@ -62,7 +63,6 @@
     <Compile Include="DAO\RichiestaLISDAO.cs" />
     <Compile Include="DAO\RisultatoDAO.cs" />
     <Compile Include="DAO\RisultatoGrezzoDAO.cs" />
-    <Compile Include="DBSQL.cs" />
     <Compile Include="Mappers\RefertoMapper.cs" />
     <Compile Include="Mappers\RisultatoMapper.cs" />
     <Compile Include="Mappers\LabelMapper.cs" />
@@ -78,22 +78,13 @@
     </Compile>
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\Common\GeneralPurposeLib.csproj">
-      <Project>{a1d784d1-835d-425d-bcc8-04c9c04ba474}</Project>
-      <Name>GeneralPurposeLib</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\IDAL\IDAL.csproj">
-      <Project>{1ae7a8d0-8826-4d4d-9e71-8cd3d6175319}</Project>
-      <Name>IDAL</Name>
-    </ProjectReference>
-  </ItemGroup>
-  <ItemGroup>
+    <None Include="app.config" />
     <None Include="packages.config" />
     <None Include="Service References\MirthWS\DefaultAcceptMessageService.wsdl" />
     <None Include="Service References\MirthWS\Mirth.xsd">
       <SubType>Designer</SubType>
     </None>
-    <None Include="Service References\MirthWS\Seminabit.Sanita.OrderEntry.DataAccessLayer.MirthWS.acceptMessageResponse.datasource">
+    <None Include="Service References\MirthWS\Seminabit.Sanita.OrderEntry.LIS.DataAccessLayer.MirthWS.acceptMessageResponse.datasource">
       <DependentUpon>Reference.svcmap</DependentUpon>
     </None>
   </ItemGroup>
@@ -102,6 +93,20 @@
   </ItemGroup>
   <ItemGroup>
     <WCFMetadata Include="Service References\" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\Common\GeneralPurposeLib.csproj">
+      <Project>{a1d784d1-835d-425d-bcc8-04c9c04ba474}</Project>
+      <Name>GeneralPurposeLib</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\DBSQLSuite\DBSQLSuite.csproj">
+      <Project>{9df2e8eb-89e0-467f-bf2f-6ab5bb3a3679}</Project>
+      <Name>DBSQLSuite</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\IDAL\IDAL.csproj">
+      <Project>{1ae7a8d0-8826-4d4d-9e71-8cd3d6175319}</Project>
+      <Name>IDAL</Name>
+    </ProjectReference>
   </ItemGroup>
   <ItemGroup>
     <WCFMetadataStorage Include="Service References\MirthWS\" />

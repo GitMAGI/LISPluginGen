@@ -2,12 +2,13 @@
 using System.Collections.Generic;
 using System.Data;
 
-namespace Seminabit.Sanita.OrderEntry.DataAccessLayer.Mappers
+namespace Seminabit.Sanita.OrderEntry.LIS.DataAccessLayer.Mappers
 {
     public class RichiestaLISMapper
     {
         private static readonly log4net.ILog log =
-           log4net.LogManager.GetLogger(System.Reflection.MethodBase.GetCurrentMethod().DeclaringType);
+            //log4net.LogManager.GetLogger(System.Reflection.MethodBase.GetCurrentMethod().DeclaringType);
+            log4net.LogManager.GetLogger("LIS");
 
         public static List<IDAL.VO.RichiestaLISVO> RichMapper(DataTable rows)
         {
@@ -84,6 +85,7 @@ namespace Seminabit.Sanita.OrderEntry.DataAccessLayer.Mappers
             rich.repanome = row["repanome"] != DBNull.Value ? (string)row["repanome"] : null;
             rich.accedatetime = row["accedatetime"] != DBNull.Value ? (DateTime)row["accedatetime"] : (DateTime?)null;
             rich.tiporicovero = row["tiporicovero"] != DBNull.Value ? (string)row["tiporicovero"] : null;
+            rich.episodioid = row["episodioid"] != DBNull.Value ? (long)row["episodioid"] : (long?)null;
 
             return rich; ;
         }

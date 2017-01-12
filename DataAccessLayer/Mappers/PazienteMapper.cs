@@ -1,13 +1,15 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Data;
 
-namespace Seminabit.Sanita.OrderEntry.DataAccessLayer.Mappers
+namespace Seminabit.Sanita.OrderEntry.LIS.DataAccessLayer.Mappers
 {
     public class PazienteMapper
     {
         private static readonly log4net.ILog log =
-           log4net.LogManager.GetLogger(System.Reflection.MethodBase.GetCurrentMethod().DeclaringType);
-        
+            //log4net.LogManager.GetLogger(System.Reflection.MethodBase.GetCurrentMethod().DeclaringType);
+            log4net.LogManager.GetLogger("LIS");
+
         public static IDAL.VO.PazienteVO PaziMapper(DataRow row)
         {
             IDAL.VO.PazienteVO pazi = new IDAL.VO.PazienteVO();
@@ -60,8 +62,27 @@ namespace Seminabit.Sanita.OrderEntry.DataAccessLayer.Mappers
             pazi.pazimergedata = row["pazimergedata"] != DBNull.Value ? (DateTime)row["pazimergedata"] : (DateTime?)null;
             pazi.pazidistr = row["pazidistr"] != DBNull.Value ? (string)row["pazidistr"] : null;
             pazi.paziaslcode = row["paziaslcode"] != DBNull.Value ? (string)row["paziaslcode"] : null;
+            pazi.nominativo = row["nominativo"] != DBNull.Value ? (string)row["nominativo"] : null;
 
             return pazi;
+        }
+        public static List<IDAL.VO.PazienteVO> PaziMapper(DataTable rows)
+        {
+            List<IDAL.VO.PazienteVO> data = new List<IDAL.VO.PazienteVO>();
+
+            if (rows != null)
+            {
+                if (rows.Rows.Count > 0)
+                {
+                    foreach (DataRow row in rows.Rows)
+                    {
+                        IDAL.VO.PazienteVO tmp = PaziMapper(row);
+                        data.Add(tmp);
+                    }
+                }
+            }
+
+            return data;
         }
     }
 }

@@ -1,13 +1,14 @@
 ﻿using System;
 using System.Collections.Generic;
-using Seminabit.Sanita.OrderEntry.BusinessLogicLayer.Mappers;
+using Seminabit.Sanita.OrderEntry.LIS.BusinessLogicLayer.Mappers;
 using System.Diagnostics;
 using GeneralPurposeLib;
 
-namespace Seminabit.Sanita.OrderEntry.BusinessLogicLayer
+namespace Seminabit.Sanita.OrderEntry.LIS.BusinessLogicLayer
 {
     public partial class LISBLL
     {
+        /*
         public List<IBLL.DTO.AnalisiDTO> GetAnalisisByRichiesta(string id)
         {
             Stopwatch tw = new Stopwatch();
@@ -19,7 +20,35 @@ namespace Seminabit.Sanita.OrderEntry.BusinessLogicLayer
 
             try
             {
-                List<IDAL.VO.AnalisiVO> dalRes = dal.GetAnalisisByRichiesta(id);
+                List<IDAL.VO.AnalisiVO> dalRes = dal.GetAnalisisByIdRichiesta(id);
+                anals = AnalisiMapper.AnalMapper(dalRes);
+                log.Info(string.Format("{0} VOs mapped to {1}", LibString.ItemsNumber(anals), LibString.TypeName(anals)));
+            }
+            catch (Exception ex)
+            {
+                string msg = "An Error occured! Exception detected!";
+                log.Info(msg);
+                log.Error(msg + "\n" + ex.Message);
+            }
+
+            tw.Stop();
+            log.Info(string.Format("Completed! Elapsed time {0}", LibString.TimeSpanToTimeHmsms(tw.Elapsed)));
+
+            return anals;
+        }
+        */    
+        public List<IBLL.DTO.AnalisiDTO> GetAnalisisByRichiestaExt(string id)
+        {
+            Stopwatch tw = new Stopwatch();
+            tw.Start();
+
+            log.Info(string.Format("Starting ..."));
+
+            List<IBLL.DTO.AnalisiDTO> anals = null;
+
+            try
+            {
+                List<IDAL.VO.AnalisiVO> dalRes = dal.GetAnalisisByIdRichiestaExt(id);
                 anals = AnalisiMapper.AnalMapper(dalRes);
                 log.Info(string.Format("{0} VOs mapped to {1}", LibString.ItemsNumber(anals), LibString.TypeName(anals)));
             }

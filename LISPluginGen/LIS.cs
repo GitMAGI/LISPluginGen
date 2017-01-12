@@ -1,17 +1,17 @@
 ﻿using GeneralPurposeLib;
-using Seminabit.Sanita.OrderEntry.IBLL.DTO;
+using Seminabit.Sanita.OrderEntry.LIS.IBLL.DTO;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
-using Seminabit.Sanita.OrderEntry;
 
-namespace Seminabit.Sanita.OrderEntry.LISPlugin
+namespace Seminabit.Sanita.OrderEntry.LIS.Plugin
 {
-    public class LIS : ILISPlugin.ILIS
+    public class LIS : IPlugin.ILIS
     {
         private static readonly log4net.ILog log =
-            log4net.LogManager.GetLogger(System.Reflection.MethodBase.GetCurrentMethod().DeclaringType);
+            //log4net.LogManager.GetLogger(System.Reflection.MethodBase.GetCurrentMethod().DeclaringType);
+            log4net.LogManager.GetLogger("LIS");
 
         private DataAccessLayer.LISDAL dal;
         private BusinessLogicLayer.LISBLL bll;
@@ -57,8 +57,8 @@ namespace Seminabit.Sanita.OrderEntry.LISPlugin
                         
             return data;
         }
-
-        public List<RisultatoDTO> Check4Results(string analid)
+                
+        public List<RisultatoDTO> GetResultsByAnalId(string analid)
         {
             Stopwatch tw = new Stopwatch();
             tw.Start();
@@ -74,7 +74,7 @@ namespace Seminabit.Sanita.OrderEntry.LISPlugin
 
             return riss;
         }
-        public List<AnalisiDTO> Check4Analysis(string richid_)
+        public List<AnalisiDTO> GetAnalsByRichIdExt(string richid_)
         {
             Stopwatch tw = new Stopwatch();
             tw.Start();
@@ -82,28 +82,14 @@ namespace Seminabit.Sanita.OrderEntry.LISPlugin
             log.Info(string.Format("Starting ..."));
 
             List<AnalisiDTO> anals = null;
-
-            RichiestaLISDTO rich = bll.GetRichiestaLISByIdExt(richid_);
-            if (rich != null)
-            {
-                string richid = rich.id.ToString();
-                log.Info("External Request ID " + richid_ + " - Internal Request ID " + richid);
-                anals = bll.GetAnalisisByRichiesta(richid);                
-            }
-            else
-            {
-                string msg = string.Format("No Rich with ID: {0} found. The operation will be aborted!", richid_);
-                log.Info(msg);
-            }            
-
-            rich = null;
-
+            anals = bll.GetAnalisisByRichiestaExt(richid_);
+            
             tw.Stop();
             log.Info(string.Format("Completed! Elapsed time {0}", LibString.TimeSpanToTimeHmsms(tw.Elapsed)));
 
             return anals;
         }        
-        public RefertoDTO Check4Report(string richid_)
+        public RefertoDTO GetReportByRichIdExt(string richid_)
         {
             Stopwatch tw = new Stopwatch();
             tw.Start();
@@ -111,28 +97,14 @@ namespace Seminabit.Sanita.OrderEntry.LISPlugin
             log.Info(string.Format("Starting ..."));
 
             RefertoDTO refe = null;
-
-            RichiestaLISDTO rich = bll.GetRichiestaLISById(richid_);
-            if (rich != null)
-            {
-                string richid = rich.id.ToString();
-                log.Info("External Request ID " + richid_ + " - Internal Request ID " + richid);
-                refe = bll.GetRefertoByEsamId(richid);                
-            }
-            else
-            {
-                string msg = string.Format("No Rich with ID: {0} found. The operation will be aborted!", richid_);
-                log.Info(msg);
-            }
-            
-            rich = null;            
+            refe = bll.GetRefertoByIdRichiestaExt(richid_);
 
             tw.Stop();
             log.Info(string.Format("Completed! Elapsed time {0}", LibString.TimeSpanToTimeHmsms(tw.Elapsed)));
 
             return refe;
         }
-        public List<LabelDTO> Check4Labels(string richid_)
+        public List<LabelDTO> GetLabelsByRichIdExt(string richid_)
         {
             Stopwatch tw = new Stopwatch();
             tw.Start();
@@ -140,29 +112,58 @@ namespace Seminabit.Sanita.OrderEntry.LISPlugin
             log.Info(string.Format("Starting ..."));
 
             List<LabelDTO> labes = null;
-
-            RichiestaLISDTO rich = bll.GetRichiestaLISById(richid_);
-            if (rich != null)
-            {
-                string richid = rich.id.ToString();
-                log.Info("External Request ID " + richid_ + " - Internal Request ID " + richid);
-                labes = bll.GetLabelsByRichiesta(richid);                
-            }
-            else
-            {
-                string msg = string.Format("No Rich with ID: {0} found. The operation will be aborted!", richid_);
-                log.Info(msg);
-            }            
-
-            rich = null;
-
+            labes = bll.GetLabelsByIdRichiestaExt(richid_);
+            
             tw.Stop();
             log.Info(string.Format("Completed! Elapsed time {0}", LibString.TimeSpanToTimeHmsms(tw.Elapsed)));
 
             return labes;
         }
 
-        public MirthResponseDTO CancelRequest(string richid_, ref string errorString)
+        public RichiestaLISDTO GetRichiestaByIdExt(string richid)
+        {
+            Stopwatch tw = new Stopwatch();
+            tw.Start();
+
+            log.Info(string.Format("Starting ..."));
+
+            RichiestaLISDTO rich = null;
+
+            rich = bll.GetRichiestaLISByIdExt(richid);
+            if (rich == null)
+            {
+                string msg = string.Format("No Rich with ID: {0} found. The operation will be aborted!", richid);
+                log.Info(msg);
+            }
+
+            tw.Stop();
+            log.Info(string.Format("Completed! Elapsed time {0}", LibString.TimeSpanToTimeHmsms(tw.Elapsed)));
+
+            return rich;
+        }
+        public List<RichiestaLISDTO> GetRichiesteByEpisodio(string episid)
+        {
+            Stopwatch tw = new Stopwatch();
+            tw.Start();
+
+            log.Info(string.Format("Starting ..."));
+
+            List<RichiestaLISDTO> richs = null;
+
+            richs = bll.GetRichiesteByEpisodio(episid);
+            if (richs == null)
+            {
+                string msg = string.Format("No Rich with EpisodioID: {0} found. The operation will be aborted!", episid);
+                log.Info(msg);
+            }
+
+            tw.Stop();
+            log.Info(string.Format("Completed! Elapsed time {0}", LibString.TimeSpanToTimeHmsms(tw.Elapsed)));
+
+            return richs;
+        }
+
+        public MirthResponseDTO CancelRequest(string richidExt_, ref string errorString)
         {
             Stopwatch tw = new Stopwatch();
             tw.Start();
@@ -174,20 +175,20 @@ namespace Seminabit.Sanita.OrderEntry.LISPlugin
             try
             {                
                 // 1. Check if Canceling is allowed
-                if (bll.CheckIfCancelingIsAllowed(richid_, ref errorString))
+                if (!bll.CheckIfCancelingIsAllowed(richidExt_, ref errorString))
                 {
-                    string msg = string.Format("Canceling of the request with id {0} is denied! errorString: {1}", richid_, errorString);
+                    string msg = string.Format("Canceling of the request with id {0} is denied! errorString: {1}", richidExt_, errorString);
                     log.Info(msg);
                     log.Error(msg);
                     throw new Exception(msg);
                 }
 
                 // 2. Check if ESAM and ANAL exist
-                RichiestaLISDTO chkEsam = bll.GetRichiestaLISById(richid_);
-                List<AnalisiDTO> chkAnals = bll.GetAnalisisByRichiesta(richid_);
+                RichiestaLISDTO chkEsam = bll.GetRichiestaLISByIdExt(richidExt_);
+                List<AnalisiDTO> chkAnals = bll.GetAnalisisByRichiestaExt(richidExt_);
                 if (chkEsam == null || chkAnals == null || (chkAnals != null && chkAnals.Count == 0))
                 {
-                    string msg = "Error! No Esam or Anal records found referring to EsamID " + richid_ + "! A request must be Scheduled first!";
+                    string msg = "Error! No Esam or Anal records found referring to EsamID " + richidExt_ + "! A request must be Scheduled first!";
                     errorString = msg;
                     log.Info(msg);
                     log.Error(msg);
@@ -195,16 +196,16 @@ namespace Seminabit.Sanita.OrderEntry.LISPlugin
                 }
 
                 // 3. Settare Stato a "DELETNG"
-                int res = bll.ChangeHL7StatusAndMessageAll(richid_, IBLL.HL7StatesRichiestaLIS.Deleting);
+                int res = bll.ChangeHL7StatusAndMessageAll(richidExt_, IBLL.HL7StatesRichiestaLIS.Deleting);
 
                 // 4. Invio a Mirth
-                string hl7orl = bll.SendMirthRequest(richid_);
+                string hl7orl = bll.SendMirthRequest(richidExt_);
                 if (hl7orl == null)
                 {
                     string msg = "Mirth Returned an Error!";
                     errorString = msg;
                     // 4.e1 Cambiare stato in errato
-                    int err = bll.ChangeHL7StatusAndMessageAll(richid_, IBLL.HL7StatesRichiestaLIS.Errored, msg);
+                    int err = bll.ChangeHL7StatusAndMessageAll(richidExt_, IBLL.HL7StatesRichiestaLIS.Errored, msg);
                     // 4.e2 Restituire null
                     return null;
                 }
@@ -216,7 +217,8 @@ namespace Seminabit.Sanita.OrderEntry.LISPlugin
                 string status = IBLL.HL7StatesRichiestaLIS.Deleted;
                 if (data.ACKCode != "AA")
                     status = IBLL.HL7StatesRichiestaLIS.Errored;
-                RichiestaLISDTO RichUpdt = bll.ChangeHL7StatusAndMessageRichiestaLIS(richid_, status, data.ACKDesc);
+                string richDesc = data.ERRMsg != null ? data.ERRMsg : data.ACKDesc;
+                RichiestaLISDTO RichUpdt = bll.ChangeHL7StatusAndMessageRichiestaLIS(richidExt_, status, richDesc);
 
                 List<ORCStatus> orcs = data.ORCStatus;
                 if (orcs != null)
@@ -240,8 +242,57 @@ namespace Seminabit.Sanita.OrderEntry.LISPlugin
 
             return data;
         }
-        
-        public List<RisultatoDTO> RetrieveResults(string richid_, ref string errorString)
+        public bool CheckIfCancelingIsAllowed(string richidExt, ref string errorString)
+        {
+            Stopwatch tw = new Stopwatch();
+            tw.Start();
+
+            log.Info(string.Format("Starting ..."));
+
+            bool res = true;
+
+            if (errorString == null)
+                errorString = "";
+
+            RefertoDTO refe = bll.GetRefertoByIdRichiestaExt(richidExt);
+
+            if (refe == null)
+            {
+                List<AnalisiDTO> anals = bll.GetAnalisisByRichiestaExt(richidExt);
+                foreach (AnalisiDTO anal in anals)
+                {
+                    List<RisultatoDTO> riss = bll.GetRisultatiByAnalId(anal.analidid.Value.ToString());
+                    if (riss != null)
+                    {
+                        string report = string.Format("Analisi {0} già eseguita! Impossibile Cancellare!", anal.analidid.Value.ToString());
+                        res = false;
+                        if (errorString != "")
+                            errorString += "\r\n" + report;
+                        else
+                            errorString += report;
+                    }
+                }
+            }
+            else
+            {
+                string report = string.Format("Esame {0} già refertato! Id referto {1}!", richidExt, refe.refeidid);
+                res = false;
+                if (errorString != "")
+                    errorString += "\r\n" + report;
+                else
+                    errorString += report;
+            }
+
+            if (errorString == "")
+                errorString = null;
+
+            tw.Stop();
+            log.Info(string.Format("Completed! Elapsed time {0}", LibString.TimeSpanToTimeHmsms(tw.Elapsed)));
+
+            return res;
+        }
+
+        public List<RisultatoDTO> RetrieveResults(string richidext_, ref string errorString)
         {
             Stopwatch tw = new Stopwatch();
             tw.Start();
@@ -252,10 +303,10 @@ namespace Seminabit.Sanita.OrderEntry.LISPlugin
 
             try
             {
-                RichiestaLISDTO rich = bll.GetRichiestaLISById(richid_);
+                RichiestaLISDTO rich = bll.GetRichiestaLISByIdExt(richidext_);
                 if (rich == null)
                 {
-                    string msg = string.Format("No Rich with ID: {0} found. The operation will be aborted!", richid_);
+                    string msg = string.Format("No Rich with ID: {0} found. The operation will be aborted!", richidext_);
                     log.Info(msg);
                     throw new Exception(msg);
                 }
@@ -263,11 +314,11 @@ namespace Seminabit.Sanita.OrderEntry.LISPlugin
                 string richid = rich.id.ToString();
                 rich = null;
 
-                log.Info("External Request ID " + richid_ + " - Internal Request ID " + richid); 
+                log.Info("External Request ID " + richidext_ + " - Internal Request ID " + richid); 
 
-                log.Info("Searching for Analysis' related to Request ID " + richid + " ...");
-                List<AnalisiDTO> anals = bll.GetAnalisisByRichiesta(richid);
-                log.Info(string.Format("Found {0} Analysis' related to Request ID {1}.", anals != null ? anals.Count : 0, richid));
+                log.Info("Searching for Analysis' related to Request ID Ext " + richidext_ + " ...");
+                List<AnalisiDTO> anals = bll.GetAnalisisByRichiestaExt(richidext_);
+                log.Info(string.Format("Found {0} Analysis' related to Request ID Ext {1}.", anals != null ? anals.Count : 0, richidext_));
                 foreach (AnalisiDTO anal in anals)
                 {
                     log.Info("Searching for Results related to Analysis ID " + anal.analidid.Value.ToString() + " ...");

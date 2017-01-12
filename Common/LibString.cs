@@ -131,7 +131,11 @@ namespace GeneralPurposeLib
 
                 int indexEnd = data.IndexOf("\r\n", indexStart);
                 if (indexEnd == -1)
-                    indexEnd = data.Length;
+                {
+                    indexEnd = data.IndexOf('\n', indexStart);                    
+                    if(indexEnd == -1)
+                        indexEnd = data.Length;
+                }                    
                 indexesEnd.Add(indexEnd);
             }
 

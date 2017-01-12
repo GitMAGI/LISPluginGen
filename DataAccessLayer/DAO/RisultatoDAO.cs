@@ -3,8 +3,9 @@ using System;
 using System.Collections.Generic;
 using System.Data;
 using System.Diagnostics;
+using DBSQLSuite;
 
-namespace Seminabit.Sanita.OrderEntry.DataAccessLayer
+namespace Seminabit.Sanita.OrderEntry.LIS.DataAccessLayer
 {
     public partial class LISDAL
     {

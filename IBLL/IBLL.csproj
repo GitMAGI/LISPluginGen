@@ -7,10 +7,11 @@
     <ProjectGuid>{26F90BA8-92EE-4C58-8C45-DCAC2A9662A9}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>Seminabit.Sanita.OrderEntry.IBLL</RootNamespace>
+    <RootNamespace>Seminabit.Sanita.OrderEntry.LIS.IBLL</RootNamespace>
     <AssemblyName>IBLL</AssemblyName>
-    <TargetFrameworkVersion>v4.5.2</TargetFrameworkVersion>
+    <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
+    <TargetFrameworkProfile />
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>

@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<ReferenceGroup xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema" ID="821bbea8-150e-4535-ab59-c87a4c9598ab" xmlns="urn:schemas-microsoft-com:xml-wcfservicemap">
+<ReferenceGroup xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema" ID="0488497a-318e-4f6d-b37f-79f14810e710" xmlns="urn:schemas-microsoft-com:xml-wcfservicemap">
   <ClientOptions>
     <GenerateAsynchronousMethods>false</GenerateAsynchronousMethods>
     <GenerateTaskBasedAsynchronousMethod>true</GenerateTaskBasedAsynchronousMethod>
@@ -19,11 +19,11 @@
     <ServiceContractMappings />
   </ClientOptions>
   <MetadataSources>
-    <MetadataSource Address="http://192.168.0.180:8081/services/Mirth?wsdl" Protocol="http" SourceId="1" />
+    <MetadataSource Address="http://192.168.0.180:8082/services/Mirth?wsdl" Protocol="http" SourceId="1" />
   </MetadataSources>
   <Metadata>
-    <MetadataFile FileName="DefaultAcceptMessageService.wsdl" MetadataType="Wsdl" ID="93d56a32-7cbd-450c-a4af-e3b88e6101ed" SourceId="1" SourceUrl="http://192.168.0.180:8081/services/Mirth?wsdl" />
-    <MetadataFile FileName="Mirth.xsd" MetadataType="Schema" ID="07d2aa5b-cae3-4736-a1a7-ac5d484d51c8" SourceId="1" SourceUrl="http://192.168.0.180:8081/services/Mirth?xsd=1" />
+    <MetadataFile FileName="Mirth.xsd" MetadataType="Schema" ID="b65c2863-ba2b-404d-bf04-594fa0bf4917" SourceId="1" SourceUrl="http://192.168.0.180:8082/services/Mirth?xsd=1" />
+    <MetadataFile FileName="DefaultAcceptMessageService.wsdl" MetadataType="Wsdl" ID="d4160d1a-48ff-4c86-b511-b50c4dfc429d" SourceId="1" SourceUrl="http://192.168.0.180:8082/services/Mirth?wsdl" />
   </Metadata>
   <Extensions>
     <ExtensionFile FileName="configuration91.svcinfo" Name="configuration91.svcinfo" />

@@ -1,15 +1,17 @@
-﻿using Seminabit.Sanita.OrderEntry.DataAccessLayer.Mappers;
-using GeneralPurposeLib;
+﻿using GeneralPurposeLib;
 using System;
 using System.Collections.Generic;
 using System.Data;
 using System.Diagnostics;
-using Seminabit.Sanita.OrderEntry.IDAL.VO;
+using Seminabit.Sanita.OrderEntry.LIS.IDAL.VO;
+using Seminabit.Sanita.OrderEntry.LIS.DataAccessLayer.Mappers;
+using DBSQLSuite;
 
-namespace Seminabit.Sanita.OrderEntry.DataAccessLayer
+namespace Seminabit.Sanita.OrderEntry.LIS.DataAccessLayer
 {
     public partial class LISDAL
     {
+        
         public RefertoVO GetRefertoById(string refeidid)
         {
             Stopwatch tw = new Stopwatch();
@@ -61,7 +63,8 @@ namespace Seminabit.Sanita.OrderEntry.DataAccessLayer
 
             return refe;
         }
-        public RefertoVO GetRefertoByEsamId(string esamidid)
+        /*   
+        public RefertoVO GetRefertoByIdRichiesta(string esamidid)
         {
             Stopwatch tw = new Stopwatch();
             tw.Start();
@@ -97,6 +100,57 @@ namespace Seminabit.Sanita.OrderEntry.DataAccessLayer
                         refe = RefertoMapper.RefeMapper(data.Rows[0]);
                         log.Info(string.Format("{0} Records mapped to {1}", LibString.ItemsNumber(refe), LibString.TypeName(refe)));
                     }                    
+                }
+            }
+            catch (Exception ex)
+            {
+                string msg = "An Error occured! Exception detected!";
+                log.Info(msg);
+                log.Error(msg + "\n" + ex.Message);
+            }
+
+            tw.Stop();
+
+            log.Info(string.Format("Completed! Elapsed time {0}", LibString.TimeSpanToTimeHmsms(tw.Elapsed)));
+
+            return refe;
+        }
+        */
+        public RefertoVO GetRefertoByIdRichiestaExt(string esamidid)
+        {
+            Stopwatch tw = new Stopwatch();
+            tw.Start();
+
+            log.Info(string.Format("Starting ..."));
+
+            RefertoVO refe = null;
+            try
+            {
+                string connectionString = this.GRConnectionString;
+                                
+                string table = this.RefertoTabName;
+
+                Dictionary<string, DBSQL.QueryCondition> conditions = new Dictionary<string, DBSQL.QueryCondition>()
+                {
+                    {
+                        "id",
+                        new DBSQL.QueryCondition() {
+                            Key = "referich",
+                            Op = DBSQL.Op.Equal,
+                            Value = esamidid,
+                            Conj = DBSQL.Conj.None
+                        }
+                    }
+                };
+                DataTable data = DBSQL.SelectOperation(connectionString, table, conditions);
+                log.Info(string.Format("DBSQL Query Executed! Retrieved {0} record!", LibString.ItemsNumber(data)));
+                if (data != null)
+                {
+                    if (data.Rows.Count == 1)
+                    {
+                        refe = RefertoMapper.RefeMapper(data.Rows[0]);
+                        log.Info(string.Format("{0} Records mapped to {1}", LibString.ItemsNumber(refe), LibString.TypeName(refe)));
+                    }
                 }
             }
             catch (Exception ex)

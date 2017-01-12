@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace Seminabit.Sanita.OrderEntry.IDAL.VO
+namespace Seminabit.Sanita.OrderEntry.LIS.IDAL.VO
 {
     public class LabelVO
     {
@@ -20,6 +20,6 @@ namespace Seminabit.Sanita.OrderEntry.IDAL.VO
         public string labesectid { get; set; }
         public string labesectnome { get; set; }
         public DateTime? labedaorprel { get; set; }
-
+        public string laberich { get; set; }
     }
 }

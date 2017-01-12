@@ -1,11 +1,12 @@
 ﻿using AutoMapper;
 
-namespace Seminabit.Sanita.OrderEntry.BusinessLogicLayer.Mappers
+namespace Seminabit.Sanita.OrderEntry.LIS.BusinessLogicLayer.Mappers
 {
     public class RefertoMapper
     {
         private static readonly log4net.ILog log =
-            log4net.LogManager.GetLogger(System.Reflection.MethodBase.GetCurrentMethod().DeclaringType);
+            //log4net.LogManager.GetLogger(System.Reflection.MethodBase.GetCurrentMethod().DeclaringType);
+            log4net.LogManager.GetLogger("LIS");
 
         public static IBLL.DTO.RefertoDTO RefeMapper(IDAL.VO.RefertoVO raw)
         {

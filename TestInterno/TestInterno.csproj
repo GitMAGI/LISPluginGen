@@ -59,7 +59,7 @@
       <Name>IBLL</Name>
     </ProjectReference>
     <ProjectReference Include="..\LISPluginGen\LISPluginGen.csproj">
-      <Project>{d637edbc-32d2-4a71-ac20-641fd46d2f2f}</Project>
+      <Project>{825fcf89-c79c-4869-b0fd-89efed35f28c}</Project>
       <Name>LISPluginGen</Name>
     </ProjectReference>
   </ItemGroup>

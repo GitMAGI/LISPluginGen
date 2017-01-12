@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace Seminabit.Sanita.OrderEntry.IBLL.DTO
+namespace Seminabit.Sanita.OrderEntry.LIS.IBLL.DTO
 {
     public class LabelDTO
     {
@@ -20,5 +20,6 @@ namespace Seminabit.Sanita.OrderEntry.IBLL.DTO
         public string labesectid { get; set; }
         public string labesectnome { get; set; }
         public DateTime? labedaorprel { get; set; }
+        public string laberich { get; set; }
     }
 }

@@ -1,15 +1,16 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using Seminabit.Sanita.OrderEntry.BusinessLogicLayer.Mappers;
+using Seminabit.Sanita.OrderEntry.LIS.BusinessLogicLayer.Mappers;
 using System.Diagnostics;
 using GeneralPurposeLib;
 
-namespace Seminabit.Sanita.OrderEntry.BusinessLogicLayer
+namespace Seminabit.Sanita.OrderEntry.LIS.BusinessLogicLayer
 {
     public partial class LISBLL
     {
-        public List<IBLL.DTO.LabelDTO> GetLabelsByRichiesta(string richidid)
+        /*
+        public List<IBLL.DTO.LabelDTO> GetLabelsByIdRichiesta(string richidid)
         {
             Stopwatch tw = new Stopwatch();
             tw.Start();
@@ -20,7 +21,7 @@ namespace Seminabit.Sanita.OrderEntry.BusinessLogicLayer
 
             try
             {
-                List<IDAL.VO.LabelVO> labes_ = this.dal.GetLabelsByRichiesta(richidid);
+                List<IDAL.VO.LabelVO> labes_ = this.dal.GetLabelsByIdRichiesta(richidid);
                 labes = LabelMapper.LabeMapper(labes_);
                 log.Info(string.Format("{0} {1} mapped to {2}", LibString.ItemsNumber(labes), LibString.TypeName(labes_), LibString.TypeName(labes)));
             }
@@ -36,6 +37,35 @@ namespace Seminabit.Sanita.OrderEntry.BusinessLogicLayer
 
             return labes;
         }
+        */
+        public List<IBLL.DTO.LabelDTO> GetLabelsByIdRichiestaExt(string richidid)
+        {
+            Stopwatch tw = new Stopwatch();
+            tw.Start();
+
+            log.Info(string.Format("Starting ..."));
+
+            List<IBLL.DTO.LabelDTO> labes = null;
+
+            try
+            {
+                List<IDAL.VO.LabelVO> labes_ = this.dal.GetLabelsByIdRichiestaExt(richidid);
+                labes = LabelMapper.LabeMapper(labes_);
+                log.Info(string.Format("{0} {1} mapped to {2}", LibString.ItemsNumber(labes), LibString.TypeName(labes_), LibString.TypeName(labes)));
+            }
+            catch (Exception ex)
+            {
+                string msg = "An Error occured! Exception detected!";
+                log.Info(msg);
+                log.Error(msg + "\n" + ex.Message);
+            }
+
+            tw.Stop();
+            log.Info(string.Format("Completed! Elapsed time {0}", LibString.TimeSpanToTimeHmsms(tw.Elapsed)));
+
+            return labes;
+        }
+
         public IBLL.DTO.LabelDTO GetLabelById(string labeidid)
         {
             Stopwatch tw = new Stopwatch();

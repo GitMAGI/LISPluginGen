@@ -3,9 +3,10 @@ using System;
 using System.Collections.Generic;
 using System.Data;
 using System.Diagnostics;
-using Seminabit.Sanita.OrderEntry.DataAccessLayer.Mappers;
+using Seminabit.Sanita.OrderEntry.LIS.DataAccessLayer.Mappers;
+using DBSQLSuite;
 
-namespace Seminabit.Sanita.OrderEntry.DataAccessLayer
+namespace Seminabit.Sanita.OrderEntry.LIS.DataAccessLayer
 {
     public partial class LISDAL
     {        
@@ -111,9 +112,7 @@ namespace Seminabit.Sanita.OrderEntry.DataAccessLayer
 
             return rich;
         }
-
-        /*
-        public List<IDAL.VO.RichiestaLISVO> GetRichiesteByEven(string evenidid)
+        public List<IDAL.VO.RichiestaLISVO> GetRichiesteByEpisodio(string episid)
         {
             Stopwatch tw = new Stopwatch();
             tw.Start();
@@ -127,16 +126,16 @@ namespace Seminabit.Sanita.OrderEntry.DataAccessLayer
             {
                 string connectionString = this.GRConnectionString;
 
-                long evenidid_ = long.Parse(evenidid);
+                long episid_ = long.Parse(episid);
 
                 Dictionary<string, DBSQL.QueryCondition> conditions = new Dictionary<string, DBSQL.QueryCondition>()
                 {
                     {
-                        "esameven",
+                        "episodioid",
                         new DBSQL.QueryCondition() {
-                            Key = "esameven",
+                            Key = "episodioid",
                             Op = DBSQL.Op.Equal,
-                            Value = evenidid_,
+                            Value = episid_,
                             Conj = DBSQL.Conj.None
                         }
                     }
@@ -164,7 +163,6 @@ namespace Seminabit.Sanita.OrderEntry.DataAccessLayer
 
             return richs;
         }
-        */
         public int SetRichiesta(IDAL.VO.RichiestaLISVO data)
         {
             int result = 0;

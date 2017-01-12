@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace Seminabit.Sanita.OrderEntry.IBLL.DTO
+namespace Seminabit.Sanita.OrderEntry.LIS.IBLL.DTO
 {
     public class RefertoDTO
     {
@@ -10,5 +10,6 @@ namespace Seminabit.Sanita.OrderEntry.IBLL.DTO
         public string refemeno { get; set; }
         public string refemecf { get; set; }
         public int? refeesam { get; set; }
+        public string referich { get; set; }
     }
 }

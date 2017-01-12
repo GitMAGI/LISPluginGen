@@ -1,9 +1,10 @@
 ﻿using System;
-using Seminabit.Sanita.OrderEntry.BusinessLogicLayer.Mappers;
+using Seminabit.Sanita.OrderEntry.LIS.BusinessLogicLayer.Mappers;
 using System.Diagnostics;
 using GeneralPurposeLib;
+using System.Collections.Generic;
 
-namespace Seminabit.Sanita.OrderEntry.BusinessLogicLayer
+namespace Seminabit.Sanita.OrderEntry.LIS.BusinessLogicLayer
 {
     public partial class LISBLL
     {        
@@ -60,6 +61,33 @@ namespace Seminabit.Sanita.OrderEntry.BusinessLogicLayer
             log.Info(string.Format("Completed! Elapsed time {0}", LibString.TimeSpanToTimeHmsms(tw.Elapsed)));
 
             return rich;
+        }
+        public List<IBLL.DTO.RichiestaLISDTO> GetRichiesteByEpisodio(string episid)
+        {
+            Stopwatch tw = new Stopwatch();
+            tw.Start();
+
+            log.Info(string.Format("Starting ..."));
+
+            List<IBLL.DTO.RichiestaLISDTO> richs = null;
+
+            try
+            {
+                List<IDAL.VO.RichiestaLISVO> dalRes = this.dal.GetRichiesteByEpisodio(episid);
+                richs = RichiestaLISMapper.RichMapper(dalRes);
+                log.Info(string.Format("{0} VOs mapped to {1}", LibString.ItemsNumber(richs), LibString.TypeName(richs)));
+            }
+            catch (Exception ex)
+            {
+                string msg = "An Error occured! Exception detected!";
+                log.Info(msg);
+                log.Error(msg + "\n" + ex.Message);
+            }
+
+            tw.Stop();
+            log.Info(string.Format("Completed! Elapsed time {0}", LibString.TimeSpanToTimeHmsms(tw.Elapsed)));
+
+            return richs;
         }
         public IBLL.DTO.RichiestaLISDTO AddRichiestaLIS(IBLL.DTO.RichiestaLISDTO data)
         {

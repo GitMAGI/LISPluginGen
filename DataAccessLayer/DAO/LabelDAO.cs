@@ -3,13 +3,15 @@ using System;
 using System.Collections.Generic;
 using System.Data;
 using System.Diagnostics;
-using Seminabit.Sanita.OrderEntry.DataAccessLayer.Mappers;
+using Seminabit.Sanita.OrderEntry.LIS.DataAccessLayer.Mappers;
+using DBSQLSuite;
 
-namespace Seminabit.Sanita.OrderEntry.DataAccessLayer
+namespace Seminabit.Sanita.OrderEntry.LIS.DataAccessLayer
 {
     public partial class LISDAL
-    {        
+    {
         // NO ENTITYFRAMEWORK
+        
         public IDAL.VO.LabelVO GetLabelById(string labeidid)
         {
             Stopwatch tw = new Stopwatch();
@@ -62,7 +64,8 @@ namespace Seminabit.Sanita.OrderEntry.DataAccessLayer
 
             return labe;
         }
-        public List<IDAL.VO.LabelVO> GetLabelsByRichiesta(string richidid)
+        /*
+        public List<IDAL.VO.LabelVO> GetLabelsByIdRichiesta(string richidid)
         {
             Stopwatch tw = new Stopwatch();
             tw.Start();
@@ -83,6 +86,56 @@ namespace Seminabit.Sanita.OrderEntry.DataAccessLayer
                         "id",
                         new DBSQL.QueryCondition() {
                             Key = "labeesam",
+                            Op = DBSQL.Op.Equal,
+                            Value = richidid_,
+                            Conj = DBSQL.Conj.None
+                        }
+                    }
+                };
+                DataTable data = DBSQL.SelectOperation(connectionString, table, conditions);
+                log.Info(string.Format("DBSQL Query Executed! Retrieved {0} record!", LibString.ItemsNumber(data)));
+                if (data != null)
+                {
+                    labes = LabelMapper.LabeMapper(data);
+                    log.Info(string.Format("{0} Records mapped to {1}", LibString.ItemsNumber(labes), LibString.TypeName(labes)));
+                }
+            }
+            catch (Exception ex)
+            {
+                log.Info(string.Format("DBSQL Query Executed! Retrieved 0 record!"));
+                string msg = "An Error occured! Exception detected!";
+                log.Info(msg);
+                log.Error(msg + "\n" + ex.Message);
+            }
+
+            tw.Stop();
+
+            log.Info(string.Format("Completed! Elapsed time {0}", LibString.TimeSpanToTimeHmsms(tw.Elapsed)));
+
+            return labes;
+        }
+        */
+        public List<IDAL.VO.LabelVO> GetLabelsByIdRichiestaExt(string richidid)
+        {
+            Stopwatch tw = new Stopwatch();
+            tw.Start();
+
+            log.Info(string.Format("Starting ..."));
+
+            List<IDAL.VO.LabelVO> labes = null;
+            try
+            {
+                string connectionString = this.GRConnectionString;
+
+                long richidid_ = long.Parse(richidid);
+                string table = this.LabelTabName;
+
+                Dictionary<string, DBSQL.QueryCondition> conditions = new Dictionary<string, DBSQL.QueryCondition>()
+                {
+                    {
+                        "id",
+                        new DBSQL.QueryCondition() {
+                            Key = "laberich",
                             Op = DBSQL.Op.Equal,
                             Value = richidid_,
                             Conj = DBSQL.Conj.None

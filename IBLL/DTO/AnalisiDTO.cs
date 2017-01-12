@@ -1,4 +1,4 @@
-﻿namespace Seminabit.Sanita.OrderEntry.IBLL.DTO
+﻿namespace Seminabit.Sanita.OrderEntry.LIS.IBLL.DTO
 {
     public class AnalisiDTO
     {
@@ -11,6 +11,6 @@
         public string analextb { get; set; }
         public string hl7_stato { get; set; }
         public string hl7_msg { get; set; }
-        //public string analesam_ { get; set; }
+        public string analrich { get; set; }
     }
 }

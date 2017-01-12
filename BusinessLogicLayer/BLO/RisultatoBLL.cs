@@ -1,10 +1,10 @@
-﻿using Seminabit.Sanita.OrderEntry.BusinessLogicLayer.Mappers;
+﻿using Seminabit.Sanita.OrderEntry.LIS.BusinessLogicLayer.Mappers;
 using GeneralPurposeLib;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 
-namespace Seminabit.Sanita.OrderEntry.BusinessLogicLayer
+namespace Seminabit.Sanita.OrderEntry.LIS.BusinessLogicLayer
 {
     public partial class LISBLL
     {

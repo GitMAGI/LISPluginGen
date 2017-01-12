@@ -1,18 +1,21 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 
-namespace Seminabit.Sanita.OrderEntry.IBLL
+namespace Seminabit.Sanita.OrderEntry.LIS.IBLL
 {
     public interface ILISBLL
     {
         DTO.PazienteDTO GetPazienteById(string id);
-        
+        List<DTO.PazienteDTO> GetPazienteBy5IdentityFields(string pazicogn, string pazinome, string pazisess, DateTime pazidata, string pazicofi);
+
         DTO.RichiestaLISDTO GetRichiestaLISById(string id);
         DTO.RichiestaLISDTO GetRichiestaLISByIdExt(string richidid);
         DTO.RichiestaLISDTO AddRichiestaLIS(DTO.RichiestaLISDTO rich);
         DTO.RichiestaLISDTO UpdateRichiestaLIS(DTO.RichiestaLISDTO rich);
         int DeleteRichiestaLISById(string id);
 
-        List<DTO.AnalisiDTO> GetAnalisisByRichiesta(string richidid);
+        //List<DTO.AnalisiDTO> GetAnalisisByRichiesta(string id);
+        List<DTO.AnalisiDTO> GetAnalisisByRichiestaExt(string richidid);
         DTO.AnalisiDTO GetAnalisiById(string analidid);
         List<DTO.AnalisiDTO> GetAnalisisByIds(List<string> analidids);
         DTO.AnalisiDTO UpdateAnalisi(DTO.AnalisiDTO data);
@@ -21,7 +24,8 @@ namespace Seminabit.Sanita.OrderEntry.IBLL
         int DeleteAnalisiById(string analidid);
         int DeleteAnalisiByIdRichiestaExt(string richidid);
 
-        List<DTO.LabelDTO> GetLabelsByRichiesta(string richidid);
+        //List<DTO.LabelDTO> GetLabelsByIdRichiesta(string richidid);
+        List<DTO.LabelDTO> GetLabelsByIdRichiestaExt(string richidid);
         DTO.LabelDTO GetLabelById(string labeidid);
         DTO.LabelDTO UpdatLabel(DTO.LabelDTO data);
         DTO.LabelDTO AddLabel(DTO.LabelDTO data);
@@ -46,7 +50,8 @@ namespace Seminabit.Sanita.OrderEntry.IBLL
 
         bool CheckIfCancelingIsAllowed(string richid, ref string errorString);
 
-        DTO.RefertoDTO GetRefertoByEsamId(string id);
+        //DTO.RefertoDTO GetRefertoByIdRichiesta(string id);
+        DTO.RefertoDTO GetRefertoByIdRichiestaExt(string id);
         DTO.RefertoDTO GetRefertoById(string id);
     }
 }

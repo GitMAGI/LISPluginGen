@@ -1,10 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
-using Seminabit.Sanita.OrderEntry.IBLL.DTO;
+using Seminabit.Sanita.OrderEntry.LIS.IBLL.DTO;
 using System.Diagnostics;
 using GeneralPurposeLib;
 
-namespace Seminabit.Sanita.OrderEntry.BusinessLogicLayer
+namespace Seminabit.Sanita.OrderEntry.LIS.BusinessLogicLayer
 {
     public partial class LISBLL
     {
@@ -30,7 +30,20 @@ namespace Seminabit.Sanita.OrderEntry.BusinessLogicLayer
                 string[] msaobj = msa.Split('|');
                 data.ACKCode = msaobj[1];
                 data.MsgID = msaobj[2];
-                data.ACKDesc = msaobj.Length > 3 ? msaobj[2] : null;
+                data.ACKDesc = null;
+                if (msaobj.Length > 3)
+                {
+                    data.ACKDesc = msaobj[2];
+                    try
+                    {
+                        string[] tmp = msaobj[2].Split('\n');
+                        data.ACKDesc = tmp[0];
+                    }
+                    catch (Exception)
+                    {
+                        log.Warn(string.Format("Unable to extract AckDesc!"));
+                    }
+                }                
                 switch (data.ACKCode)
                 {
                     case "AA":
@@ -55,7 +68,17 @@ namespace Seminabit.Sanita.OrderEntry.BusinessLogicLayer
                 log.Info(string.Format("ERR Recovering ..."));
                 List<string> errs = LibString.GetAllValuesSegments(raw, "ERR");
                 if (errs != null)
-                    data.ERRMsg = errs[0];
+                {
+                    try
+                    {
+                        string[] errobj = errs[0].Split('|');
+                        data.ERRMsg = errobj[errobj.Length - 1];
+                    }
+                    catch (Exception)
+                    {
+                        data.ERRMsg = errs[0];
+                    }                    
+                }                    
                 log.Info(string.Format("ERR Recovered"));
                 // 3. Get ORC Segment
                 log.Info(string.Format("ORC Recovering ..."));
@@ -76,8 +99,8 @@ namespace Seminabit.Sanita.OrderEntry.BusinessLogicLayer
                             switch (ORC.Status)
                             {
                                 case "OK":
-                                    desc = "Inserimento/Cancellazione eseguito con successo";
-                                    break;
+                                    desc = "Inserimento eseguito con successo";
+                                    break;                                
                                 case "RQ":
                                     desc = "Modifica Eseguita con successo";
                                     break;
@@ -89,6 +112,9 @@ namespace Seminabit.Sanita.OrderEntry.BusinessLogicLayer
                                     break;
                                 case "UM":
                                     desc = "Impossibile Modificare";
+                                    break;
+                                default:
+                                    desc = "Restituito uno stato sconosciuto";
                                     break;
                             }
                             ORC.Description = desc;
@@ -146,14 +172,15 @@ namespace Seminabit.Sanita.OrderEntry.BusinessLogicLayer
                     log.Error(msg);
                     return null;
                 }
+                                
                 string id = rich.id.Value.ToString();
                 log.Info("External Request ID " + richidid + " - Internal Request ID " + id);
 
-                List<AnalisiDTO> anals = GetAnalisisByRichiesta(id);
-
+                List<AnalisiDTO> anals = GetAnalisisByRichiestaExt(richidid);
+                
                 if (anals == null || (anals != null && anals.Count == 0))
                 {
-                    string msg = string.Format("An Error occured! No ANAL related to id {0} found into the DB. Operation Aborted!", id);
+                    string msg = string.Format("An Error occured! No ANAL related to idExt {0} found into the DB. Operation Aborted!", richidid);
                     log.Info(msg);
                     log.Error(msg);
                     return null;
@@ -190,6 +217,7 @@ namespace Seminabit.Sanita.OrderEntry.BusinessLogicLayer
             
             return labes_;
         }
+
         public int ChangeHL7StatusAndMessageAll(string richidid, string hl7_stato, string hl7_msg = null)
         {
             Stopwatch tw = new Stopwatch();
@@ -231,7 +259,7 @@ namespace Seminabit.Sanita.OrderEntry.BusinessLogicLayer
             log.Info(string.Format("Updated {0}/{1} record!", richres, 1));
 
             log.Info(string.Format("Updating ANAL ..."));
-            List<AnalisiDTO> gots = GetAnalisisByRichiesta(id);
+            List<AnalisiDTO> gots = GetAnalisisByRichiestaExt(richidid);
             gots.ForEach(p => { p.hl7_stato = hl7_stato; p.hl7_msg = hl7_msg != null ? hl7_msg : p.hl7_msg; });
             int analsres = 0;
             foreach (AnalisiDTO got_ in gots)
@@ -338,46 +366,86 @@ namespace Seminabit.Sanita.OrderEntry.BusinessLogicLayer
             bool validate = true;            
 
             if (errorString == null)
-                errorString = "";
-            /*
-            string richid = esam.esamidid.ToString();
-            if (esam.esamidid == null)
+                errorString = "";                       
+            
+            if (rich.episodioid == null)
             {
-                string msg = "ESAMIDID is Null!";
-                validate = false;
-                if(errorString != "")
-                    errorString += "\r\n" + "ESAMIDID " + richid + ": " + msg;
-                else
-                    errorString += "ESAMIDID " + richid + ": " + msg;
-            }
-            if (esam.esameven == null)
-            {
-                string msg = "ESAMEVEN is Null!";
-                validate = false;
-                if (errorString != "")                    
-                    errorString += "\r\n" + "ESAM error: " + msg;
-                else
-                    errorString += "ESAM error: " + msg;
-            }
-            if(esam.esamtipo == null)
-            {
-                string msg = "ESAMTIPO is Null!";
+                string msg = "EPISODIOID is Null!";
                 validate = false;
                 if (errorString != "")
-                    errorString += "\r\n" + "ESAM error: " + msg;
+                    errorString += "\r\n" + "RichiestaLIS error: " + msg;
                 else
-                    errorString += "ESAM error: " + msg;
+                    errorString += "RichiestaLIS error: " + msg;
             }
-            if(esam.esampren == null)
+            if (rich.pazicogn == null || rich.pazicogn == "")
             {
-                string msg = "ESAMPREN is Null!";
+                string msg = "PAZICOGN is Null!";
                 validate = false;
                 if (errorString != "")
-                    errorString += "\r\n" + "ESAM error: " + msg;
+                    errorString += "\r\n" + "RichiestaLIS error: " + msg;
                 else
-                    errorString += "ESAM error: " + msg;
+                    errorString += "RichiestaLIS error: " + msg;
             }
-            */
+            if (rich.pazinome == null || rich.pazinome == "")
+            {
+                string msg = "PAZINOME is Null!";
+                validate = false;
+                if (errorString != "")
+                    errorString += "\r\n" + "RichiestaLIS error: " + msg;
+                else
+                    errorString += "RichiestaLIS error: " + msg;
+            }
+            if (rich.pazidata == null)
+            {
+                string msg = "PAZIDATA is Null!";
+                validate = false;
+                if (errorString != "")
+                    errorString += "\r\n" + "RichiestaLIS error: " + msg;
+                else
+                    errorString += "RichiestaLIS error: " + msg;
+            }
+            if (rich.pazicofi == null || rich.pazicofi == "")
+            {
+                string msg = "PAZICOFI is Null!";
+                validate = false;
+                if (errorString != "")
+                    errorString += "\r\n" + "RichiestaLIS error: " + msg;
+                else
+                    errorString += "RichiestaLIS error: " + msg;
+            }
+            else
+            {
+                if(rich.pazicofi.Length != 16)
+                {
+                    string msg = string.Format("PAZICOFI length is Invalid!");
+                    validate = false;
+                    if (errorString != "")
+                        errorString += "\r\n" + "RichiestaLIS error: " + msg;
+                    else
+                        errorString += "RichiestaLIS error: " + msg;
+                }
+            }
+            if (rich.pazisess == null || rich.pazisess == "")
+            {
+                string msg = "PAZISESS is Null!";
+                validate = false;
+                if (errorString != "")
+                    errorString += "\r\n" + "RichiestaLIS error: " + msg;
+                else
+                    errorString += "RichiestaLIS error: " + msg;
+            }
+            else
+            {
+                if (rich.pazisess.ToUpper() != "M" && rich.pazisess.ToUpper() != "F")
+                {
+                    string msg = string.Format("PAZISESS '{0}' is Invalid!", rich.pazisess);
+                    validate = false;
+                    if (errorString != "")
+                        errorString += "\r\n" + "RichiestaLIS error: " + msg;
+                    else
+                        errorString += "RichiestaLIS error: " + msg;
+                }
+            }
 
             if (errorString == "")
                 errorString = null;
@@ -415,9 +483,9 @@ namespace Seminabit.Sanita.OrderEntry.BusinessLogicLayer
                         errorString += "ANALIDID " + analid + ": " + msg;
                 }
                 */
-                if (anal.analesam == null)
+                if (anal.analrich == null)
                 {
-                    string msg = "ANALESAM is Null!";
+                    string msg = "ANALRICH is Null!";
                     validate = false;
                     if (errorString != "")
                         errorString += "\r\n" + "ANAL (" + count + ") error: " + msg;
@@ -482,6 +550,7 @@ namespace Seminabit.Sanita.OrderEntry.BusinessLogicLayer
             bool stored = true;
 
             string res = null;
+            string resExt = null;
 
             RichiestaLISDTO richInserted = null;
             List<AnalisiDTO> analsInserted = null;
@@ -490,7 +559,7 @@ namespace Seminabit.Sanita.OrderEntry.BusinessLogicLayer
                 errorString = "";
 
             try
-            {                
+            {
                 // Validation of Rich!!!!
                 if (!this.ValidateRich(rich, ref errorString))
                 {
@@ -500,16 +569,69 @@ namespace Seminabit.Sanita.OrderEntry.BusinessLogicLayer
                     throw new Exception(msg);
                 }
 
+                // Unique ID of Paziente Checking and Inserting
+                log.Info(string.Format("PAZI's existence checking ..."));
+                string pLName = rich.pazinome != null ? rich.pazinome.Trim() : null;
+                string pFName = rich.pazicogn != null ? rich.pazicogn.Trim() : null;
+                string pSex = rich.pazisess != null ? rich.pazisess.Trim() : null;
+                string pBDate = rich.pazidata != null && rich.pazidata.HasValue ? rich.pazidata.Value.ToShortDateString() : null;
+                string pCofi = rich.pazicofi != null ? rich.pazicofi.Trim() : null;
+                log.Info(string.Format("Nome: {0} - Cognome: {1} - Sesso: {2} - Data di Nascita: {3} - Codice Fiscale: {4}", pLName, pFName, pSex, pBDate, pCofi));
+                List<PazienteDTO> pazis = this.GetPazienteBy5IdentityFields(pFName, pLName, pSex, rich.pazidata.Value, pCofi);
+                int paziInsertedRows = 0;
+                int paziunico = 0;
+                if (pazis != null && pazis.Count > 0)
+                {
+                    log.Info(string.Format("PAZI: {0} {1} exists! {2} related record(s) found!", pFName, pLName, pazis.Count));
+                    foreach (PazienteDTO pazi in pazis)
+                    {
+                        log.Info(string.Format("PAZIIDID: {0}", pazi.paziidid));
+                        if (pazi.paziidid.Value > paziunico)
+                            paziunico = pazi.paziidid.Value;
+                    }
+                    log.Info(string.Format("Paziunico chose is: {0}!", paziunico));
+                }
+                else
+                {
+                    log.Info(string.Format("PAZI not found! Inserting of the requested PAZI. Processing ..."));
+                    PazienteDTO paziToInsert = new PazienteDTO();
+                    paziToInsert.pazicogn = rich.pazicogn;
+                    paziToInsert.pazinome = rich.pazinome;
+                    paziToInsert.pazisess = rich.pazisess;
+                    paziToInsert.pazidata = rich.pazidata;
+                    paziToInsert.pazicofi = rich.pazicofi;
+                    paziToInsert.pazitele = rich.pazitele;
+                    paziToInsert.paziteam = rich.paziteam;
+                    paziToInsert.paziviaa = rich.paziCoRe_via;
+                    paziToInsert.paziprov = rich.paziPrRe_txt;
+                    paziToInsert.pazicomu = rich.paziCoRe_txt;
+                    paziToInsert.pazictnz = rich.paziNaNa_cod;
+                    paziToInsert.paziasll = rich.paziAsl_cod;
+                    paziToInsert.nominativo = rich.pazicogn + ", " + rich.pazinome;
+                    PazienteDTO paziInserted = this.AddPaziente(paziToInsert);
+                    if (paziInserted == null)
+                        throw new Exception("Error during PAZI writing into the DB.");
+                    paziunico = paziInserted.paziidid.Value;
+                    log.Info(string.Format("Paziunico got is: {0}!", paziunico));
+                    log.Info(string.Format("PAZI Inserted. Got {0} ID!", paziunico));
+                    paziToInsert = null;
+                    paziInserted = null;
+                }                
+
+                // Rich Inserting
                 rich.hl7_stato = hl7_stato;
-                log.Info(string.Format("RICH Insertion ..."));
+                rich.paziidunico = paziunico;
+                log.Info(string.Format("RICH Inserting ..."));
                 richInserted = this.AddRichiestaLIS(rich);
                 if (richInserted == null)
                     throw new Exception("Error during RICH writing into the DB.");
-                log.Info(string.Format("RICH Inserted. Got {0} ID!", richInserted.id));
+                log.Info(string.Format("RICH Inserted. Got {0} as ID and {1} as IDExt!", richInserted.id, richInserted.richidid));
 
                 res = richInserted.id.ToString();
+                resExt = richInserted.richidid;
 
-                anals.ForEach(p => { p.analesam = int.Parse(res); p.hl7_stato = hl7_stato; });
+                //anals.ForEach(p => { p.analesam = int.Parse(res); p.hl7_stato = hl7_stato; });
+                anals.ForEach(p => { p.analrich = resExt; p.hl7_stato = hl7_stato; });
 
                 // Validation of Anals!!!!
                 if (!this.ValidateAnals(anals, ref errorString))
@@ -520,12 +642,13 @@ namespace Seminabit.Sanita.OrderEntry.BusinessLogicLayer
                     throw new Exception(msg);
                 }
 
-                log.Info(string.Format("Insertion of {0} ANAL requested. Processing ...", anals.Count));
+                log.Info(string.Format("Inserting of {0} ANAL requested. Processing ...", anals.Count));
                 analsInserted = this.AddAnalisis(anals);
                 if ((analsInserted == null) || (analsInserted != null && analsInserted.Count != anals.Count))
                     throw new Exception("Error during ANALs writing into the DB.");
                 log.Info(string.Format("Inserted {0} ANAL successfully!", analsInserted.Count));
-                log.Info(string.Format("Inserted {0} records successfully!", analsInserted.Count + 1));
+                
+                log.Info(string.Format("Inserted {0} records successfully!", analsInserted.Count + 1 + paziInsertedRows));
             }
             catch (Exception ex)
             {
@@ -541,13 +664,13 @@ namespace Seminabit.Sanita.OrderEntry.BusinessLogicLayer
                 int richRB = 0;
                 int analsRB = 0;
 
-                log.Info(string.Format("Rolling Back of the Insertions due an error occured ..."));
+                log.Info(string.Format("Rolling Back of the Insertings due an error occured ..."));
                 // Rolling Back
                 if (res != null)
                 {
                     richRB = this.DeleteRichiestaLISById(res);
                     log.Info(string.Format("Rolled Back {0} RIC record. ESAMIDID was {1}!", richRB, stored));
-                    analsRB = this.DeleteAnalisiByIdRichiestaExt(res);
+                    analsRB = this.DeleteAnalisiByIdRichiestaExt(resExt);
                     log.Info(string.Format("Rolled Back {0} ANAL records. ANALESAM was {1}!", analsRB, stored));
                 }
                 log.Info(string.Format("Rolled Back {0} records of {1} requested!", richRB + analsRB, anals.Count + 1));
@@ -587,6 +710,7 @@ namespace Seminabit.Sanita.OrderEntry.BusinessLogicLayer
                     return null;
                 }
 
+                /*
                 string id = chkRich.id.Value.ToString();
                 log.Info("External Request ID " + richid + " - Internal Request ID " + id);
                 int id_int = 0;
@@ -598,11 +722,12 @@ namespace Seminabit.Sanita.OrderEntry.BusinessLogicLayer
                     log.Error(msg);
                     throw new Exception(msg);
                 }
+                */
 
-                List<AnalisiDTO> chkAnals = this.GetAnalisisByRichiesta(id);
+                List<AnalisiDTO> chkAnals = this.GetAnalisisByRichiestaExt(richid);
                 if (chkAnals == null || (chkAnals != null && chkAnals.Count == 0))
                 {
-                    string msg = "Error! No Anal records found referring to AnalEsam " + id + "! A request must be Scheduled first!";
+                    string msg = "Error! No Anal records found referring to AnalRich " + richid + "! A request must be Scheduled first!";
                     errorString = msg;
                     log.Info(msg);
                     log.Error(msg);
@@ -677,11 +802,11 @@ namespace Seminabit.Sanita.OrderEntry.BusinessLogicLayer
                 // 6. Scrivere Labels nel DB
                 if (data.Labes != null)
                 {
-                    data.Labes.ForEach(p => p.labeesam = id_int);
+                    data.Labes.ForEach(p => { p.laberich = richid; });
                     List<LabelDTO> stored = this.StoreLabels(data.Labes);
                     if (stored == null)
                     {
-                        string msg = "An Error Occurred! Labels successfully retrieved by the remote LAB, but they haven't been stored into the local DB! The Rich ID is " + id;
+                        string msg = "An Error Occurred! Labels successfully retrieved by the remote LAB, but they haven't been stored into the local DB! The Rich ID is " + richid;
                         errorString = msg;
                         log.Info(msg);
                         log.Error(msg);
@@ -743,11 +868,11 @@ namespace Seminabit.Sanita.OrderEntry.BusinessLogicLayer
             string id = rich.id.Value.ToString();
             log.Info("External Request ID " + richid + " - Internal Request ID " + id);
 
-            RefertoDTO refe = this.GetRefertoByEsamId(id);
+            RefertoDTO refe = this.GetRefertoByIdRichiestaExt(richid);
 
             if (refe == null)
             {
-                List<AnalisiDTO> anals = this.GetAnalisisByRichiesta(id);
+                List<AnalisiDTO> anals = this.GetAnalisisByRichiestaExt(richid);
                 foreach (AnalisiDTO anal in anals)
                 {
                     List<RisultatoDTO> riss = this.GetRisultatiByAnalId(anal.analidid.Value.ToString());

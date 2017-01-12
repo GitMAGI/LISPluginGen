@@ -6,12 +6,13 @@ using System.Data.SqlClient;
 using System.Diagnostics;
 using System.Linq;
 
-namespace Seminabit.Sanita.OrderEntry.DataAccessLayer
+namespace DBSQLSuite
 {    
     public class DBSQL
     {
         private static readonly log4net.ILog log =
-           log4net.LogManager.GetLogger(System.Reflection.MethodBase.GetCurrentMethod().DeclaringType);
+            //log4net.LogManager.GetLogger(System.Reflection.MethodBase.GetCurrentMethod().DeclaringType);
+            log4net.LogManager.GetLogger("LIS");
 
         private static string HidePwd(string connectionString)
         {

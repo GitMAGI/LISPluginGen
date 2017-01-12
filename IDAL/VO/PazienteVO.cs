@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace Seminabit.Sanita.OrderEntry.IDAL.VO
+namespace Seminabit.Sanita.OrderEntry.LIS.IDAL.VO
 {
     public class PazienteVO
     {
@@ -52,6 +52,6 @@ namespace Seminabit.Sanita.OrderEntry.IDAL.VO
         public DateTime? pazimergedata { get; set; }
         public string pazidistr { get; set; }
         public string paziaslcode { get; set; }
-
+        public string nominativo { get; set; }
     }
 }

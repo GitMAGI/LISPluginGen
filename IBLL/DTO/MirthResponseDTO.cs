@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 
-namespace Seminabit.Sanita.OrderEntry.IBLL.DTO
+namespace Seminabit.Sanita.OrderEntry.LIS.IBLL.DTO
 {
     public class MirthResponseDTO
     {

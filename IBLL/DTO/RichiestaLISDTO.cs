@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace Seminabit.Sanita.OrderEntry.IBLL.DTO
+namespace Seminabit.Sanita.OrderEntry.LIS.IBLL.DTO
 {
     public class RichiestaLISDTO
     {
@@ -62,5 +62,6 @@ namespace Seminabit.Sanita.OrderEntry.IBLL.DTO
         public string repanome { get; set; }
         public DateTime? accedatetime { get; set; }
         public string tiporicovero { get; set; }
+        public long? episodioid { get; set; }
     }
 }

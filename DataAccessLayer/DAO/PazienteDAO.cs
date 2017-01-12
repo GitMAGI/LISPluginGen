@@ -3,9 +3,10 @@ using System;
 using System.Collections.Generic;
 using System.Data;
 using System.Diagnostics;
-using Seminabit.Sanita.OrderEntry.DataAccessLayer.Mappers;
+using Seminabit.Sanita.OrderEntry.LIS.DataAccessLayer.Mappers;
+using DBSQLSuite;
 
-namespace Seminabit.Sanita.OrderEntry.DataAccessLayer
+namespace Seminabit.Sanita.OrderEntry.LIS.DataAccessLayer
 {
     public partial class LISDAL
     {
@@ -59,6 +60,90 @@ namespace Seminabit.Sanita.OrderEntry.DataAccessLayer
 
             return pazi;
         }
+        public List<IDAL.VO.PazienteVO> GetPazienteBy5IdentityFields(string pazicogn, string pazinome, string pazisess, DateTime pazidata, string pazicofi)
+        {
+            Stopwatch tw = new Stopwatch();
+            tw.Start();
+
+            log.Info(string.Format("Starting ..."));
+
+            List<IDAL.VO.PazienteVO> pazis = null;
+
+            try
+            {
+                string connectionString = this.GRConnectionString;
+                string table = this.PazienteTabName;
+
+                Dictionary<string, DBSQL.QueryCondition> conditions = new Dictionary<string, DBSQL.QueryCondition>()
+                {
+                    {
+                        "cognome",
+                        new DBSQL.QueryCondition() {
+                            Key = "PAZICOGN",
+                            Op = DBSQL.Op.Equal,
+                            Value = pazicogn,
+                            Conj = DBSQL.Conj.And
+                        }
+                    },
+                    {
+                        "nome",
+                        new DBSQL.QueryCondition() {
+                            Key = "PAZINOME",
+                            Op = DBSQL.Op.Equal,
+                            Value = pazinome,
+                            Conj = DBSQL.Conj.And
+                        }
+                    },
+                    {
+                        "dataNascita",
+                        new DBSQL.QueryCondition() {
+                            Key = "PAZIDATA",
+                            Op = DBSQL.Op.Equal,
+                            Value = pazidata,
+                            Conj = DBSQL.Conj.And
+                        }
+                    },
+                    {
+                        "codFiscale",
+                        new DBSQL.QueryCondition() {
+                            Key = "PAZICOFI",
+                            Op = DBSQL.Op.Equal,
+                            Value = pazicofi,
+                            Conj = DBSQL.Conj.And
+                        }
+                    },
+                    {
+                        "sesso",
+                        new DBSQL.QueryCondition() {
+                            Key = "PAZISESS",
+                            Op = DBSQL.Op.Equal,
+                            Value = pazisess,
+                            Conj = DBSQL.Conj.None
+                        }
+                    }
+                };
+                DataTable data = DBSQL.SelectOperation(connectionString, table, conditions);
+                log.Info(string.Format("DBSQL Query Executed! Retrieved {0} record!", LibString.ItemsNumber(data)));
+                if (data != null)
+                {
+                    pazis = PazienteMapper.PaziMapper(data);
+                    log.Info(string.Format("{0} Records mapped to {1}", LibString.ItemsNumber(pazis), LibString.TypeName(pazis)));                   
+                }
+            }
+            catch (Exception ex)
+            {
+                string msg = "An Error occured! Exception detected!";
+                log.Info(msg);
+                log.Error(msg + "\n" + ex.Message);
+            }
+
+            tw.Stop();
+
+            log.Info(string.Format("Completed! Elapsed time {0}", LibString.TimeSpanToTimeHmsms(tw.Elapsed)));
+
+            return pazis;
+        }
+
         public int SetPaziente(IDAL.VO.PazienteVO data)
         {
             int result = 0;
@@ -123,7 +208,7 @@ namespace Seminabit.Sanita.OrderEntry.DataAccessLayer
 
             log.Info(string.Format("Starting ..."));
 
-            string table = this.AnalisiTabName;
+            string table = this.PazienteTabName;
 
             try
             {
