@@ -22,8 +22,7 @@ namespace Seminabit.Sanita.OrderEntry.LIS.BusinessLogicLayer
             log.Info(string.Format("HL7 Message Processing ... "));
 
             try
-            {
-                
+            {                
                 log.Info(string.Format("MSA Recovering ..."));
                 // 1. Get MSA Segment
                 string msa = LibString.GetAllValuesSegments(raw, "MSA")[0];
@@ -670,7 +669,7 @@ namespace Seminabit.Sanita.OrderEntry.LIS.BusinessLogicLayer
                 {
                     richRB = this.DeleteRichiestaLISById(res);
                     log.Info(string.Format("Rolled Back {0} RIC record. ESAMIDID was {1}!", richRB, stored));
-                    analsRB = this.DeleteAnalisiByIdRichiestaExt(resExt);
+                    analsRB = this.DeleteAnalisisByIdRichiestaExt(resExt);
                     log.Info(string.Format("Rolled Back {0} ANAL records. ANALESAM was {1}!", analsRB, stored));
                 }
                 log.Info(string.Format("Rolled Back {0} records of {1} requested!", richRB + analsRB, anals.Count + 1));

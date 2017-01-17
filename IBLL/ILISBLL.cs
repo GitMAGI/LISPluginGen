@@ -22,7 +22,7 @@ namespace Seminabit.Sanita.OrderEntry.LIS.IBLL
         DTO.AnalisiDTO AddAnalisi(DTO.AnalisiDTO data);
         List<DTO.AnalisiDTO> AddAnalisis(List<DTO.AnalisiDTO> data);
         int DeleteAnalisiById(string analidid);
-        int DeleteAnalisiByIdRichiestaExt(string richidid);
+        int DeleteAnalisisByIdRichiestaExt(string richidid);
 
         //List<DTO.LabelDTO> GetLabelsByIdRichiesta(string richidid);
         List<DTO.LabelDTO> GetLabelsByIdRichiestaExt(string richidid);
@@ -35,6 +35,7 @@ namespace Seminabit.Sanita.OrderEntry.LIS.IBLL
         List<DTO.RisultatoDTO> GetRisultatiByEsamAnalId(string id);
         List<DTO.RisultatoDTO> GetRisultatiByAnalId(string id);
         List<DTO.RisultatoDTO> AddRisultati(List<DTO.RisultatoDTO> data);
+        int DeleteRisultatiByIdAnalisi(string analid);
 
         DTO.MirthResponseDTO ORLParser(string raw);
         string SendMirthRequest(string richidid);

@@ -17,6 +17,6 @@ namespace Seminabit.Sanita.OrderEntry.LIS.IPlugin
         MirthResponseDTO CancelRequest(string richid, ref string errorString);
         bool CheckIfCancelingIsAllowed(string richid, ref string errorString);
 
-        List<RisultatoDTO> RetrieveResults(string richid, ref string errorString);
+        List<RisultatoDTO> RetrieveResults(string richid, ref string errorString, bool? forceUpdating = null);
     }
 }

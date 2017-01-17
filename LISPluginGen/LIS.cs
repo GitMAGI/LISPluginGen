@@ -292,7 +292,7 @@ namespace Seminabit.Sanita.OrderEntry.LIS.Plugin
             return res;
         }
 
-        public List<RisultatoDTO> RetrieveResults(string richidext_, ref string errorString)
+        public List<RisultatoDTO> RetrieveResults(string richidext_, ref string errorString, bool? forceUpdating = null)
         {
             Stopwatch tw = new Stopwatch();
             tw.Start();
@@ -310,11 +310,10 @@ namespace Seminabit.Sanita.OrderEntry.LIS.Plugin
                     log.Info(msg);
                     throw new Exception(msg);
                 }
-
-                string richid = rich.id.ToString();
+                
                 rich = null;
 
-                log.Info("External Request ID " + richidext_ + " - Internal Request ID " + richid); 
+                log.Info("External Request ID " + richidext_); 
 
                 log.Info("Searching for Analysis' related to Request ID Ext " + richidext_ + " ...");
                 List<AnalisiDTO> anals = bll.GetAnalisisByRichiestaExt(richidext_);
@@ -326,6 +325,32 @@ namespace Seminabit.Sanita.OrderEntry.LIS.Plugin
                     if (anres != null && anres.Count > 0)
                     {
                         log.Info(string.Format("Found {0} Results related to Analysis ID {1}.", anres, anal.analidid.Value.ToString()));
+                        //0. Check if updating is set to Forced!
+                        if (forceUpdating != null)
+                        {                            
+                            //0.1 If it is Updating is true
+                            if (forceUpdating.Value)
+                            {
+                                log.Info("Requested a forced updating of the Raw Results!");
+                                
+                                //1. Get Updated Risultati
+                                log.Info("Searching for Raw Results related to Request IDExt - Analysis ID " + richidext_ + "-" + anal.analidid.Value.ToString() + " ...");
+                                List<RisultatoDTO> anresUpdt = bll.GetRisultatiByEsamAnalId(richidext_ + "-" + anal.analidid.Value.ToString());
+                                log.Info(string.Format("Found {0} Raw Results related to Request IDExt - Analysis ID : {1}-{2}.", anresUpdt != null ? anresUpdt.Count : 0, richidext_, anal.analidid.Value.ToString()));
+                                if (anresUpdt != null && anresUpdt.Count > 0)
+                                {
+                                    //2. Delete Old Risultati       
+                                    int removedRes = bll.DeleteRisultatiByIdAnalisi(anal.analidid.Value.ToString());
+                                    log.Info(string.Format("Removed {0} Result items related to AnalId: {1}", removedRes, anal.analidid.Value.ToString()));
+                                    //3. Write New Risultati
+                                    List<RisultatoDTO> updts = bll.AddRisultati(anresUpdt);
+                                    log.Info(string.Format("{0} Raw Results Converted and Written into DB. They are Related to Analysis ID {1}. ANRE ID are '{2}'.", updts != null ? updts.Count : 0, anal.analidid.Value.ToString(), updts != null ? string.Join(", ", updts.Select(p => p.anreidid).ToList().ToArray()) : ""));                                    
+                                }
+
+                                log.Info("Forced updating of Results Completed!");
+                            }
+                        }
+
                         //1. Check if Analisi is "Executed"
                         //1.1 If not, Update Analisi to "Executed"
                         log.Info(string.Format("HL7 Status of Analysis with ID {0}, is '{1}'. HL7 Message is '{2}'.", anal.analidid.Value.ToString(), anal.hl7_stato, anal.hl7_msg));
@@ -343,9 +368,9 @@ namespace Seminabit.Sanita.OrderEntry.LIS.Plugin
                     else
                     {
                         log.Info(string.Format("Found No Results related to Analysis ID {0}.", anal.analidid.Value.ToString()));
-                        log.Info("Searching for Raw Results related to Request ID - Analysis ID " + richid + "-" + anal.analidid.Value.ToString() + " ...");
-                        List<RisultatoDTO> anresNew = bll.GetRisultatiByEsamAnalId(richid + "-" + anal.analidid.Value.ToString());
-                        log.Info(string.Format("Found {0} Raw Results related to Request ID - Analysis ID : {1}-{2}.", anresNew != null ? anresNew.Count : 0, richid, anal.analidid.Value.ToString()));
+                        log.Info("Searching for Raw Results related to Request IDExt - Analysis ID " + richidext_ + "-" + anal.analidid.Value.ToString() + " ...");
+                        List<RisultatoDTO> anresNew = bll.GetRisultatiByEsamAnalId(richidext_ + "-" + anal.analidid.Value.ToString());
+                        log.Info(string.Format("Found {0} Raw Results related to Request IDExt - Analysis ID : {1}-{2}.", anresNew != null ? anresNew.Count : 0, richidext_, anal.analidid.Value.ToString()));
                         if (anresNew != null && anresNew.Count > 0)
                         {
                             //1. Add new Risultato as Executed                            

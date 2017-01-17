@@ -12,8 +12,7 @@ namespace TestInterno
         {
             Console.WriteLine("Starting .... ");
             
-            LIS lis = new LIS();           
-
+            LIS lis = new LIS();
             
             RichiestaLISDTO rich = new RichiestaLISDTO();
 
@@ -28,7 +27,7 @@ namespace TestInterno
             rich.pazidata = Convert.ToDateTime("1983-03-15");
             rich.pazisess = "M";
            
-            rich.richidid = "2fghghrr0bv32ytry3";
+            rich.richidid = "e9re0vkv904gm9bm";
 
             rich.accedatetime = Convert.ToDateTime("2017-01-09 11:25:00.000");
             rich.evendata = DateTime.Now;
@@ -106,7 +105,9 @@ namespace TestInterno
 
             //MirthResponseDTO respAdd = lis.NewRequest(rich, anals, ref err);
 
-            bool chk = lis.CheckIfCancelingIsAllowed(rich.richidid, ref err);
+            List<RisultatoDTO> res = lis.RetrieveResults(rich.richidid, ref err, true);
+
+            //bool chk = lis.CheckIfCancelingIsAllowed(rich.richidid, ref err);
 
             //MirthResponseDTO respCanceling = lis.CancelRequest(rich.richidid, ref err);           
 

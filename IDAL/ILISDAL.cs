@@ -46,6 +46,7 @@ namespace Seminabit.Sanita.OrderEntry.LIS.IDAL
         List<VO.RisultatoVO> GetRisultatiByAnalId(string id);
         VO.RisultatoVO NewRisultato(VO.RisultatoVO data);
         List<VO.RisultatoVO> NewRisultati(List<VO.RisultatoVO> data);
+        int DeleteRisultatiByAnalisi(string analId);
 
         VO.RefertoVO GetRefertoById(string refeidid);
         //VO.RefertoVO GetRefertoByIdRichiesta(string esamidid);

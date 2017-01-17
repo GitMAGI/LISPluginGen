@@ -236,7 +236,7 @@ namespace Seminabit.Sanita.OrderEntry.LIS.BusinessLogicLayer
 
             return result;
         }
-        public int DeleteAnalisiByIdRichiestaExt(string richidid)
+        public int DeleteAnalisisByIdRichiestaExt(string richidid)
         {
             Stopwatch tw = new Stopwatch();
             tw.Start();
