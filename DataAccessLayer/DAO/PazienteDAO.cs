@@ -143,7 +143,6 @@ namespace Seminabit.Sanita.OrderEntry.LIS.DataAccessLayer
 
             return pazis;
         }
-
         public int SetPaziente(IDAL.VO.PazienteVO data)
         {
             int result = 0;

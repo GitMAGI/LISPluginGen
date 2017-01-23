@@ -120,5 +120,5 @@ namespace Seminabit.Sanita.OrderEntry.LIS.BusinessLogicLayer
 
             return result;
         }    
-}
+    }
 }

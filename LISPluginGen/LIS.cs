@@ -242,7 +242,8 @@ namespace Seminabit.Sanita.OrderEntry.LIS.Plugin
 
             return data;
         }
-        public bool CheckIfCancelingIsAllowed(string richidExt, ref string errorString)
+        /*
+        public bool CheckIfCancelingIsAllowed_(string richidExt, ref string errorString)
         {
             Stopwatch tw = new Stopwatch();
             tw.Start();
@@ -282,6 +283,24 @@ namespace Seminabit.Sanita.OrderEntry.LIS.Plugin
                 else
                     errorString += report;
             }
+
+            if (errorString == "")
+                errorString = null;
+
+            tw.Stop();
+            log.Info(string.Format("Completed! Elapsed time {0}", LibString.TimeSpanToTimeHmsms(tw.Elapsed)));
+
+            return res;
+        }
+        */
+        public bool CheckIfCancelingIsAllowed(string richidExt, ref string errorString)
+        {
+            Stopwatch tw = new Stopwatch();
+            tw.Start();
+
+            log.Info(string.Format("Starting ..."));
+
+            bool res = bll.CheckIfCancelingIsAllowed(richidExt, ref errorString);
 
             if (errorString == "")
                 errorString = null;

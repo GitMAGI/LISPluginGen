@@ -668,9 +668,9 @@ namespace Seminabit.Sanita.OrderEntry.LIS.BusinessLogicLayer
                 if (res != null)
                 {
                     richRB = this.DeleteRichiestaLISById(res);
-                    log.Info(string.Format("Rolled Back {0} RIC record. ESAMIDID was {1}!", richRB, stored));
+                    log.Info(string.Format("Rolled Back {0} RIC record. ID was {1} and RICHIDID was {2}!", richRB, res, resExt));
                     analsRB = this.DeleteAnalisisByIdRichiestaExt(resExt);
-                    log.Info(string.Format("Rolled Back {0} ANAL records. ANALESAM was {1}!", analsRB, stored));
+                    log.Info(string.Format("Rolled Back {0} ANAL records. ANALRICH was {1}!", analsRB, resExt));
                 }
                 log.Info(string.Format("Rolled Back {0} records of {1} requested!", richRB + analsRB, anals.Count + 1));
                 stored = false;

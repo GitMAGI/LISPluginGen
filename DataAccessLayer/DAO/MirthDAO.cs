@@ -26,7 +26,7 @@ namespace Seminabit.Sanita.OrderEntry.LIS.DataAccessLayer
                 log.Info("XML Request built and stringyfied! XML: " + xmlreq);
 
                 log.Info("Mirth client instatiating ... ");
-                using (MirthWS.DefaultAcceptMessageClient client = new MirthWS.DefaultAcceptMessageClient())
+                using (MirthWS_lis.DefaultAcceptMessageClient client = new MirthWS_lis.DefaultAcceptMessageClient())
                 {
                     string addr = client.Endpoint.Address.Uri.AbsoluteUri;
                     int port = client.Endpoint.Address.Uri.Port;
