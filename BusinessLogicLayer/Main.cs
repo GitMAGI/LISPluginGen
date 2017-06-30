@@ -828,7 +828,7 @@ namespace Seminabit.Sanita.OrderEntry.LIS.BusinessLogicLayer
             // 7. Restituire il DTO
             return data;
         }
-
+        
         public bool CheckIfCancelingIsAllowed(string richid, ref string errorString)
         {
             Stopwatch tw = new Stopwatch();
